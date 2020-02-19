@@ -9,6 +9,12 @@ public class GameRuler : MonoBehaviour
 
     private GameObject player;
 
+    public static int GAMESTATUS;
+
+    public static int GAME_STATUS_STOP = -1;
+    public static int GAME_STATUS_OVER = 0;
+    public static int GAME_STATUS_LIVE = 1;
+
     public static int DIRECTION_RIGHT = -2;
     public static int DIRECTION_LEFT = -1;
     public static int DIRECTION_NONE = 0;
@@ -40,6 +46,7 @@ public class GameRuler : MonoBehaviour
         player = GameObject.Find("Player");
         clickOrder = new List<Enemy>();
         SPEED = speed;
+        GAMESTATUS = GAME_STATUS_LIVE;
         GenerateStage(50);
     }
 
