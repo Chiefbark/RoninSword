@@ -48,6 +48,7 @@ public class Enemy : BasicScriptBehaviour
         {
             // Kills the Enemy
             StartCoroutine(Blood());
+            // TODO: Kill Enemy
             return true;
         }
         return false;

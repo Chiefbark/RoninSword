@@ -97,7 +97,7 @@ public class Player : BasicScriptBehaviour
         // If the Player failed
         else
         {
-            // Kill the player
+            // TODO: Kill the player
             GameRuler.GAMESTATUS = GameRuler.GAME_STATUS_OVER;
         }
     }
