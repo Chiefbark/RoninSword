@@ -61,7 +61,7 @@ public class Player : BasicScriptBehaviour
     }
 
     /// <summary>
-    /// handles the behaviour of the movement
+    /// Handles the behaviour of the movement
     /// </summary>
     private void HandleMovement()
     {
