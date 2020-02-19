@@ -47,7 +47,7 @@ public class Player : BasicScriptBehaviour
         else if (!GetComponent<Animator>().GetBool("attack"))
         {
             // Moves the Player to the initial position
-            MoveTo(initPosition, false, GameRuler.DIRECTION_TOP);
+            MoveTo(initPosition, false, GameRuler.DIRECTION_NONE);
             nEnemies = 0;
         }
     }
