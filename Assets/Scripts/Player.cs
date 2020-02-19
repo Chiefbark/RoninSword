@@ -11,7 +11,7 @@ public class Player : BasicScriptBehaviour
     private Queue<Enemy> targetList;  // The queue of target Enemies pending to kill
     private int nEnemies;   // Count of Enemies dequeues from the target list
 
-    [SerializeField]
+    [SerializeField] // DEBUG
     private float speed;    // The base speed of the Player
 
     private bool attack;    // Flag variable to check if the Player has to attack or not
