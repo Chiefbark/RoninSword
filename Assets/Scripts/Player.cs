@@ -6,25 +6,24 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private Vector2 initPosition;   // The initial position of the Player
-    private Vector2 nextTargetPosition; // The next target position of the Player
-    private Enemy nextEnemy;
-    private Queue<Enemy> targetList;  // The queue of target positions pending to go
+    private Vector2 currTargetPosition; // The current target position of the Player where to move
+    private Enemy currEnemy;    // The current Enemy to kill
+    private Queue<Enemy> targetList;  // The queue of target Enemies pending to kill
 
     [SerializeField]
     private float speed;    // The base speed of the Player
 
     private bool attack;    // Flag variable to check if the Player has to attack or not
 
-    private int iter;
+    private int shadowCounter;
 
     // Start is called before the first frame update
     void Start()
     {
         initPosition = transform.position;
-        nextTargetPosition = initPosition;
+        currTargetPosition = initPosition;
 
         targetList = new Queue<Enemy>();
-
     }
 
     // Update is called once per frame
@@ -40,45 +39,52 @@ public class Player : MonoBehaviour
     {
         // Updates the speed of the animator
         GetComponent<Animator>().SetFloat("speed", GameRuler.SPEED);
-
         // If the current position is not the target position
-        if ((Vector2)transform.position != nextTargetPosition)
+        if ((Vector2)transform.position != currTargetPosition)
         {
             // Moves the Player
-            transform.position = Vector2.MoveTowards(transform.position, nextTargetPosition, speed * GameRuler.SPEED);
-
+            transform.position = Vector2.MoveTowards(transform.position, currTargetPosition, speed * GameRuler.SPEED);
             // Creates the Player Shadow
-            if (iter == 4)
+            if (shadowCounter == 4)
             {
-                iter = 0;
+                shadowCounter = 0;
+                // Loads the Player Shadow
                 GameObject shadow = (GameObject)Instantiate(Resources.Load("Player_Shadow"));
                 // Renders the current sprite into the Player Shadow
                 shadow.GetComponent<SpriteRenderer>().sprite = GetComponent<SpriteRenderer>().sprite;
                 // Sets the position of the Player Shadow to the current
                 shadow.transform.position = transform.position;
             }
-            iter++;
+            shadowCounter++;
 
         }
         // If the Player has to attack
         else if (attack)
         {
-            if (nextEnemy.Kill())
+            // If the Player kills the Enemy
+            if (currEnemy.Kill())
             {
                 // Resets the attack flag
                 attack = false;
                 // Sets the attack to the animator
                 GetComponent<Animator>().SetBool("attack", true);
             }
+            // If the Player failed
+            else
+            {
+                // Kill the player
+            }
         }
         // if there are more target positions on the queue
         else if (!GetComponent<Animator>().GetBool("attack") && targetList.Count > 0)
         {
-            nextEnemy = targetList.Dequeue();
-            MoveTo(nextEnemy.transform.position, true);
+            // Dequeues the Enemy from the list and prepares the Player to move towards it
+            currEnemy = targetList.Dequeue();
+            MoveTo(currEnemy.transform.position, true);
         }
         // If there are no more target positions on the queue
         else if (!GetComponent<Animator>().GetBool("attack"))
+            // Moves the Player to the initial position
             MoveTo(initPosition, false, 2);
     }
 
@@ -103,12 +109,12 @@ public class Player : MonoBehaviour
         // Sets the attack flag
         this.attack = attack;
         // Sets the target position where to move
-        this.nextTargetPosition = targetPosition;
+        this.currTargetPosition = targetPosition;
 
         // Sets the default direction of the Player
         int dir = GameRuler.DIRECTION_NONE;
         // Calculates the difference between the target position and current position
-        Vector2 diff = this.nextTargetPosition - (Vector2)transform.position;
+        Vector2 diff = this.currTargetPosition - (Vector2)transform.position;
 
         // Bottom direction
         if (diff.y < 0 && Mathf.Abs(diff.x) < Mathf.Abs(diff.y) || Mathf.Abs(diff.x) == Mathf.Abs(diff.y))
@@ -123,8 +129,8 @@ public class Player : MonoBehaviour
         if (diff.x > 0 && Mathf.Abs(diff.x) > Mathf.Abs(diff.y))
             dir = GameRuler.DIRECTION_RIGHT;
 
-        // If the force direction is set
-        if (forceDirection >= -2 && forceDirection <= 2)
+        // If the force direction is inside the bounds
+        if (forceDirection >= GameRuler.DIRECTION_RIGHT && forceDirection <= GameRuler.DIRECTION_TOP)
             dir = forceDirection;
 
         // Sets the direction to the animator

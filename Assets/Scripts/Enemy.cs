@@ -29,26 +29,41 @@ public class Enemy : MonoBehaviour
             transform.position = Vector2.MoveTowards(transform.position, TargetPosition, Speed * GameRuler.SPEED);
     }
 
+    /// <summary>
+    /// Returns TRUE if the Enemy is killed, FALSE otherwise
+    /// </summary>
+    /// <returns>TRUE if the Enemy dies, FALSE otherwise</returns>
     public bool Kill()
     {
         StartCoroutine(Blood());
         return true;
     }
 
-    IEnumerator Blood()
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator Blood()
     {
         yield return new WaitForSeconds(0.2f);
+        // Loads and places the blood effect
         GameObject blood = (GameObject)Instantiate(Resources.Load("blood"));
         blood.transform.SetParent(transform);
         blood.transform.localPosition = new Vector2(0, 0.2f);
     }
 
+    /// <summary>
+    /// Detects when the Enemy has been clicked
+    /// </summary>
     private void OnMouseDown()
     {
+        // Notifies the GameRuler that this Enemy has been clicked
         GameObject.Find("GameRuler").GetComponent<GameRuler>().NotifyClick(this);
+        // Loads and places the select effect
         GameObject select = (GameObject)Instantiate(Resources.Load("select"));
         select.transform.SetParent(transform);
         select.transform.localPosition = new Vector2(0, -0.3f);
+        // Destroys the collider so the Enemy cannot be clicked again
         Destroy(GetComponent<BoxCollider2D>());
     }
 }

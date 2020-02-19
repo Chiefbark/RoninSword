@@ -47,14 +47,20 @@ public class GameRuler : MonoBehaviour
     void Update()
     {
         SPEED = speed;
+        // If all the Enemies have been clicked
         if (clickOrder.Count == nEnemies)
         {
+            // Adds all the Enemies to the Player target list
             foreach (Enemy enemy in clickOrder)
                 player.GetComponent<Player>().AddEnemy(enemy);
             nEnemies = 0;
         }
     }
 
+    /// <summary>
+    /// Generates a pseudorandom stage
+    /// </summary>
+    /// <param name="delayMilis">The initial delay of the stage</param>
     private void GenerateStage(int delayMilis)
     {
         // Generates a random number of Enemies
@@ -88,6 +94,10 @@ public class GameRuler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Adds the Enemy to the click order list
+    /// </summary>
+    /// <param name="enemy">The Enemy to add</param>
     public void NotifyClick(Enemy enemy)
     {
         clickOrder.Add(enemy);
