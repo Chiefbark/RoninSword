@@ -799,7 +799,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: player_run_top
+  m_Name: enemy_run_top
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -826,7 +826,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: player_iddle
+  m_Name: enemy_iddle
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -960,7 +960,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: player_attack_down
+  m_Name: enemy_attack_down
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1016,7 +1016,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: player_run_down
+  m_Name: enemy_run_down
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1043,7 +1043,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: player_run_right
+  m_Name: enemy_run_right
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1070,7 +1070,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: player_run_left
+  m_Name: enemy_run_left
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1180,7 +1180,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: player_attack_right
+  m_Name: enemy_attack_right
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1235,7 +1235,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: player_attack_left
+  m_Name: enemy_attack_left
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1263,7 +1263,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: player_attack_top
+  m_Name: enemy_attack_top
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
