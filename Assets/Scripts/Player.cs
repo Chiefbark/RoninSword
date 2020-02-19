@@ -29,52 +29,22 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        HandleMovement();
+        Behaviour();
     }
 
     /// <summary>
     /// Handles the movement of the Player
     /// </summary>
-    private void HandleMovement()
+    private void Behaviour()
     {
         // Updates the speed of the animator
         GetComponent<Animator>().SetFloat("speed", GameRuler.SPEED);
         // If the current position is not the target position
         if ((Vector2)transform.position != currTargetPosition)
-        {
-            // Moves the Player
-            transform.position = Vector2.MoveTowards(transform.position, currTargetPosition, speed * GameRuler.SPEED);
-            // Creates the Player Shadow
-            if (shadowCounter == 4)
-            {
-                shadowCounter = 0;
-                // Loads the Player Shadow
-                GameObject shadow = (GameObject)Instantiate(Resources.Load("Player_Shadow"));
-                // Renders the current sprite into the Player Shadow
-                shadow.GetComponent<SpriteRenderer>().sprite = GetComponent<SpriteRenderer>().sprite;
-                // Sets the position of the Player Shadow to the current
-                shadow.transform.position = transform.position;
-            }
-            shadowCounter++;
-
-        }
+            HandleMovement();
         // If the Player has to attack
         else if (attack)
-        {
-            // If the Player kills the Enemy
-            if (currEnemy.Kill())
-            {
-                // Resets the attack flag
-                attack = false;
-                // Sets the attack to the animator
-                GetComponent<Animator>().SetBool("attack", true);
-            }
-            // If the Player failed
-            else
-            {
-                // Kill the player
-            }
-        }
+            HandleAttack();
         // if there are more target positions on the queue
         else if (!GetComponent<Animator>().GetBool("attack") && targetList.Count > 0)
         {
@@ -86,6 +56,47 @@ public class Player : MonoBehaviour
         else if (!GetComponent<Animator>().GetBool("attack"))
             // Moves the Player to the initial position
             MoveTo(initPosition, false, 2);
+    }
+
+    /// <summary>
+    /// handles the behaviour of the movement
+    /// </summary>
+    private void HandleMovement()
+    {
+        // Moves the Player
+        transform.position = Vector2.MoveTowards(transform.position, currTargetPosition, speed * GameRuler.SPEED);
+        // Creates the Player Shadow
+        if (shadowCounter == 4)
+        {
+            shadowCounter = 0;
+            // Loads the Player Shadow
+            GameObject shadow = (GameObject)Instantiate(Resources.Load("Player_Shadow"));
+            // Renders the current sprite into the Player Shadow
+            shadow.GetComponent<SpriteRenderer>().sprite = GetComponent<SpriteRenderer>().sprite;
+            // Sets the position of the Player Shadow to the current
+            shadow.transform.position = transform.position;
+        }
+        shadowCounter++;
+    }
+
+    /// <summary>
+    /// Handles the behaviour of the attack
+    /// </summary>
+    private void HandleAttack()
+    {
+        // If the Player kills the Enemy
+        if (currEnemy.Kill())
+        {
+            // Resets the attack flag
+            attack = false;
+            // Sets the attack to the animator
+            GetComponent<Animator>().SetBool("attack", true);
+        }
+        // If the Player failed
+        else
+        {
+            // Kill the player
+        }
     }
 
     /// <summary>
