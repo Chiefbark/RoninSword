@@ -2,18 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerShadow : MonoBehaviour
+public class PlayerShadow : BasicScriptBehaviour
 {
     private float opacity;  // The current opacity of the Player Shadow
 
-    // Start is called before the first frame update
-    void Start()
+    protected override void OnStart()
     {
         opacity = 1f;
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void StatusLiveBehaviour()
     {
         // Reduces the opacity of the Player Shadow
         opacity -= Mathf.Pow(0.01f * (1 / GameRuler.SPEED), opacity) * GameRuler.SPEED;
@@ -24,5 +22,14 @@ public class PlayerShadow : MonoBehaviour
         // Destroys the Player Shadow if the opacity is 0 or less
         if (opacity <= 0)
             Destroy(gameObject);
+    }
+
+    protected override void StatusStopBehaviour()
+    {
+    }
+
+    protected override void StatusOverBehaviour()
+    {
+        StatusLiveBehaviour();
     }
 }

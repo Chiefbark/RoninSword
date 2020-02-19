@@ -3,12 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : BasicScriptBehaviour
 {
     private Vector2 initPosition;   // The initial position of the Player
     private Vector2 currTargetPosition; // The current target position of the Player where to move
     private Enemy currEnemy;    // The current Enemy to kill
     private Queue<Enemy> targetList;  // The queue of target Enemies pending to kill
+    private int nEnemies;   // Count of Enemies dequeues from the target list
 
     [SerializeField]
     private float speed;    // The base speed of the Player
@@ -17,8 +18,7 @@ public class Player : MonoBehaviour
 
     private int shadowCounter;
 
-    // Start is called before the first frame update
-    void Start()
+    protected override void OnStart()
     {
         initPosition = transform.position;
         currTargetPosition = initPosition;
@@ -26,16 +26,7 @@ public class Player : MonoBehaviour
         targetList = new Queue<Enemy>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        Behaviour();
-    }
-
-    /// <summary>
-    /// Handles the movement of the Player
-    /// </summary>
-    private void Behaviour()
+    protected override void StatusLiveBehaviour()
     {
         // Updates the speed of the animator
         GetComponent<Animator>().SetFloat("speed", GameRuler.SPEED);
@@ -45,17 +36,28 @@ public class Player : MonoBehaviour
         // If the Player has to attack
         else if (attack)
             HandleAttack();
-        // if there are more target positions on the queue
+        // if there are more target positions inside the queue
         else if (!GetComponent<Animator>().GetBool("attack") && targetList.Count > 0)
         {
             // Dequeues the Enemy from the list and prepares the Player to move towards it
             currEnemy = targetList.Dequeue();
             MoveTo(currEnemy.transform.position, true);
         }
-        // If there are no more target positions on the queue
+        // If there are no more target positions inside the queue
         else if (!GetComponent<Animator>().GetBool("attack"))
+        {
             // Moves the Player to the initial position
-            MoveTo(initPosition, false, 2);
+            MoveTo(initPosition, false, GameRuler.DIRECTION_TOP);
+            nEnemies = 0;
+        }
+    }
+
+    protected override void StatusStopBehaviour()
+    {
+    }
+
+    protected override void StatusOverBehaviour()
+    {
     }
 
     /// <summary>
@@ -85,7 +87,7 @@ public class Player : MonoBehaviour
     private void HandleAttack()
     {
         // If the Player kills the Enemy
-        if (currEnemy.Kill())
+        if (currEnemy.Kill(nEnemies++))
         {
             // Resets the attack flag
             attack = false;
@@ -96,6 +98,7 @@ public class Player : MonoBehaviour
         else
         {
             // Kill the player
+            GameRuler.GAMESTATUS = GameRuler.GAME_STATUS_OVER;
         }
     }
 

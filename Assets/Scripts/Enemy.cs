@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : BasicScriptBehaviour
 {
     public Vector2 InitPosition { get; set; }
     public Vector2 TargetPosition { get; set; }
@@ -13,15 +13,13 @@ public class Enemy : MonoBehaviour
     private int delay;
     public int Delay { get; set; }
 
-    // Start is called before the first frame update
-    void Start()
+    protected override void OnStart()
     {
         delay = 0;
         transform.position = InitPosition;
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void StatusLiveBehaviour()
     {
         if (delay < Delay)
             delay += 1;
@@ -29,14 +27,30 @@ public class Enemy : MonoBehaviour
             transform.position = Vector2.MoveTowards(transform.position, TargetPosition, Speed * GameRuler.SPEED);
     }
 
+    protected override void StatusStopBehaviour()
+    {
+        // TODO: stop select & blood animation
+    }
+
+    protected override void StatusOverBehaviour()
+    {
+    }
+
     /// <summary>
     /// Returns TRUE if the Enemy is killed, FALSE otherwise
     /// </summary>
+    /// <param name="expectedIndex">The expected index of the Enemy</param>
     /// <returns>TRUE if the Enemy dies, FALSE otherwise</returns>
-    public bool Kill()
+    public bool Kill(int expectedIndex)
     {
-        StartCoroutine(Blood());
-        return true;
+        // If both indexes are equal
+        if (expectedIndex == Index)
+        {
+            // Kills the Enemy
+            StartCoroutine(Blood());
+            return true;
+        }
+        return false;
     }
 
     /// <summary>
