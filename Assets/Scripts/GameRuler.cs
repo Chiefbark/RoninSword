@@ -5,7 +5,9 @@ using UnityEngine;
 public class GameRuler : MonoBehaviour
 {
     [SerializeField]
-    private float speed;
+    private float speed; // DEBUG
+    [SerializeField]
+    private int gameStatus; // DEBUG
 
     private GameObject player;
 
@@ -53,7 +55,9 @@ public class GameRuler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        SPEED = speed;
+        GAMESTATUS = gameStatus;  // DEBUG
+        SPEED = speed; // DEBUG
+
         // If all the Enemies have been clicked
         if (clickOrder.Count == nEnemies)
         {
