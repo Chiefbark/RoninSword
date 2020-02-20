@@ -52,12 +52,12 @@ public class Player : BasicScriptBehaviour
         }
     }
 
-    protected override void StatusStopBehaviour()
+    protected override void OnGameStatusChanged(int newStatus)
     {
-    }
-
-    protected override void StatusOverBehaviour()
-    {
+        if (newStatus == GameRuler.GAME_STATUS_STOP)
+            GetComponent<Animator>().enabled = false;
+        else
+            GetComponent<Animator>().enabled = true;
     }
 
     /// <summary>

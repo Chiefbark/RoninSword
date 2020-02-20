@@ -24,10 +24,6 @@ public class PlayerShadow : BasicScriptBehaviour
             Destroy(gameObject);
     }
 
-    protected override void StatusStopBehaviour()
-    {
-    }
-
     protected override void StatusOverBehaviour()
     {
         StatusLiveBehaviour();
