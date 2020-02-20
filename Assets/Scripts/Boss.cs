@@ -17,7 +17,7 @@ public class Boss : Enemy
     }
     private int maxClick;
     // The indexes of the Boss, indicates the order
-    private Queue<int> Indexes = new Queue<int>();
+    public Queue<int> Indexes = new Queue<int>();
     private int nClick; // Click counter
 
     public override bool Kill(int expectedIndex)
@@ -28,7 +28,7 @@ public class Boss : Enemy
         {
             // Delays the blood effect
             // Once the blood effect is gone, it will active the death behaviour
-            //StartCoroutine(Blood());
+            StartCoroutine(Blood());
             return true;
         }
         // Enables the attack flag
