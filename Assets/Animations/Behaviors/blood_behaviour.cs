@@ -19,7 +19,11 @@ public class blood_behaviour : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.gameObject.GetComponentInParent<Enemy>().GetComponent<Animator>().SetBool("dead", true);
+        if (animator.gameObject.GetComponentInParent<Boss>() != null && animator.gameObject.GetComponentInParent<Boss>().Indexes.Count == 0)
+            animator.gameObject.GetComponentInParent<Enemy>().GetComponent<Animator>().SetBool("dead", true);
+
+        if (animator.gameObject.GetComponentInParent<Minion>() != null)
+            animator.gameObject.GetComponentInParent<Enemy>().GetComponent<Animator>().SetBool("dead", true);
         Destroy(animator.gameObject);
     }
 
