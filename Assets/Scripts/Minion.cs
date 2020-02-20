@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : BasicScriptBehaviour
+public class Minion : BasicScriptBehaviour
 {
     public Vector2 InitPosition { get; set; }
 
-    private Vector2 currTargetPosition; // The current target position of the Enemy where to move
+    private Vector2 currTargetPosition; // The current target position of the Minion where to move
     private Queue<Vector2> targetList = new Queue<Vector2>();  // The queue of target positions pending to go
 
-    private bool attack;    // Flag variable to check if the Enemy has to attack or not
+    private bool attack;    // Flag variable to check if the Minion has to attack or not
 
     public float Speed { get; set; }
     public int Index { get; set; }
@@ -40,7 +40,7 @@ public class Enemy : BasicScriptBehaviour
             // if there are more target positions inside the queue
             else if (!GetComponent<Animator>().GetBool("attack") && targetList.Count > 0)
             {
-                // Dequeues the nest position from the list and prepares the Enemy to move towards it
+                // Dequeues the nest position from the list and prepares the Minion to move towards it
                 currTargetPosition = targetList.Dequeue();
                 MoveTo(currTargetPosition);
             }
@@ -52,7 +52,7 @@ public class Enemy : BasicScriptBehaviour
 
     protected override void StatusOverBehaviour()
     {
-        // If the Enemy has to attack
+        // If the Minion has to attack
         if (attack)
         {
             attack = false;
@@ -69,10 +69,10 @@ public class Enemy : BasicScriptBehaviour
     }
 
     /// <summary>
-    /// Returns TRUE if the Enemy is killed, FALSE otherwise
+    /// Returns TRUE if the Minion is killed, FALSE otherwise
     /// </summary>
-    /// <param name="expectedIndex">The expected index of the Enemy</param>
-    /// <returns>TRUE if the Enemy dies, FALSE otherwise</returns>
+    /// <param name="expectedIndex">The expected index of the Minion</param>
+    /// <returns>TRUE if the Minion dies, FALSE otherwise</returns>
     public bool Kill(int expectedIndex)
     {
         // If both indexes are equal
@@ -80,9 +80,9 @@ public class Enemy : BasicScriptBehaviour
         {
             // Delays the blood effect
             StartCoroutine(Blood());
-            // TODO: Death Enemy animation with behaviour for autodestroy
+            // TODO: Death Minion animation with behaviour for autodestroy
             // The next line of code is just for testing
-            Destroy(gameObject, 0.75f * GameRuler.SPEED);
+            //Destroy(gameObject, 0.75f * (1 / GameRuler.SPEED));
             return true;
         }
         // Enables the attack flag
@@ -96,9 +96,10 @@ public class Enemy : BasicScriptBehaviour
     /// <returns></returns>
     private IEnumerator Blood()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.2f * (1 / GameRuler.SPEED));
         // Loads and places the blood effect
         GameObject blood = (GameObject)Instantiate(Resources.Load("blood"));
+        blood.GetComponent<Animator>().SetFloat("speed", GameRuler.SPEED);
         blood.transform.SetParent(transform);
         blood.transform.localPosition = new Vector2(0, 0.2f);
     }
@@ -150,17 +151,17 @@ public class Enemy : BasicScriptBehaviour
     }
 
     /// <summary>
-    /// Detects when the Enemy has been clicked
+    /// Detects when the Minion has been clicked
     /// </summary>
     private void OnMouseDown()
     {
-        // Notifies the GameRuler that this Enemy has been clicked
+        // Notifies the GameRuler that this Minion has been clicked
         GameObject.Find("GameRuler").GetComponent<GameRuler>().NotifyClick(this);
         // Loads and places the select effect
         GameObject select = (GameObject)Instantiate(Resources.Load("select"));
         select.transform.SetParent(transform);
         select.transform.localPosition = new Vector2(0, -0.3f);
-        // Destroys the collider so the Enemy cannot be clicked again
+        // Destroys the collider so the Minion cannot be clicked again
         Destroy(GetComponent<BoxCollider2D>());
     }
 }
