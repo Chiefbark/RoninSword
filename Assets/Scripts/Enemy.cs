@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class Enemy : BasicScriptBehaviour
 {
+    // The initial position of the Enemy
     public Vector2 InitPosition { get; set; }
     // The queue of target positions pending to go
     private Queue<Vector2> TargetList = new Queue<Vector2>();
