@@ -56,7 +56,7 @@ public class GameRuler : MonoBehaviour
         SPEED = speed; // DEBUG
 
         // If all the Enemies have been clicked
-        if (clickOrder.Count == nEnemies)
+        if (clickOrder.Count == nEnemies * 2)
         {
             // Adds all the Enemies to the Player target list
             foreach (Enemy enemy in clickOrder)
@@ -72,12 +72,22 @@ public class GameRuler : MonoBehaviour
     private void GenerateStage(int delayMilis)
     {
         // TODO: improve radnom stage generator
+        // TODO: remove hardcoded values for boss
         // Generates a random number of Enemies
-        nEnemies = Random.Range(3, 6);
+        nEnemies = Random.Range(3, 5);
         // List of possible values
         List<int> positions = new List<int>(new int[] { 0, 1, 2, 3, 4, 5 });
         // List of possible target values
         List<int> targetPositions = new List<int>(new int[] { 0, 1, 2, 3, 4, 5 });
+
+        GameObject boss = (GameObject)Instantiate(Resources.Load("Boss"));
+        boss.GetComponent<Boss>().Speed = 0.1f;
+        boss.GetComponent<Boss>().Delay = delayMilis - 20;
+        boss.GetComponent<Boss>().MaxClick = nEnemies;
+        boss.GetComponent<Boss>().InitPosition = new Vector2(0, 7);
+        boss.GetComponent<Boss>().AddTargetPosition(new Vector2(0, 3.5f));
+
+        int index = 0;
         for (int ii = 0; ii < nEnemies; ii++)
         {
             // Loads the Enemy prefab
@@ -87,7 +97,7 @@ public class GameRuler : MonoBehaviour
             // Sets the enter delay of the Enemy
             enemy.GetComponent<Minion>().Delay = delayMilis;
             // Sets the order click of the Enemy
-            enemy.GetComponent<Minion>().Index = ii;
+            enemy.GetComponent<Minion>().Index = index;
             // Randomizes a position and removes it from the list so it cannot be repeated
             int pos = positions[Random.Range(0, positions.Count)];
             // Randomizes a target position and removes it from the list so it cannot be repeated
@@ -100,6 +110,7 @@ public class GameRuler : MonoBehaviour
             enemy.GetComponent<Minion>().AddTargetPosition(TargetPositions[targetPos]);
             // Adds a delay for the next Enemy
             delayMilis += 20;
+            index += 2;
         }
     }
 
