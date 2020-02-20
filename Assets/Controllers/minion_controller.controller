@@ -6,7 +6,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: enemy_controller
+  m_Name: minion_controller
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: direction
@@ -14,19 +14,25 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: attack
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: speed
     m_Type: 1
     m_DefaultFloat: 1
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
+  - m_Name: dead
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Movement Layer
@@ -62,6 +68,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 136f1c2405f5db14c89ad215a0f6c8a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114466351882927320
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fada3cd6eba7ce4b9b7b39c854b1d30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114504920826184100
@@ -172,6 +190,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 2
     m_ConditionEvent: attack
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: dead
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102669459980600392}
   m_Solo: 0
@@ -199,6 +220,9 @@ AnimatorStateTransition:
     m_EventTreshold: 1
   - m_ConditionMode: 2
     m_ConditionEvent: attack
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: dead
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102661839512373812}
@@ -603,6 +627,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 2
     m_ConditionEvent: attack
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: dead
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102665162836974154}
   m_Solo: 0
@@ -656,6 +683,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 2
     m_ConditionEvent: attack
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: dead
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102266372767548006}
   m_Solo: 0
@@ -698,6 +728,31 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!1101 &1101775237139936640
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: dead
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 1102337156691113002}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
+  m_ExitTime: 0.5
+  m_HasExitTime: 0
+  m_HasFixedDuration: 0
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 0
 --- !u!1101 &1101815504480460480
 AnimatorStateTransition:
   m_ObjectHideFlags: 3
@@ -716,7 +771,7 @@ AnimatorStateTransition:
   m_IsExit: 0
   serializedVersion: 3
   m_TransitionDuration: 0
-  m_TransitionOffset: 0.2395834
+  m_TransitionOffset: 0
   m_ExitTime: 0.5
   m_HasExitTime: 0
   m_HasFixedDuration: 0
@@ -733,6 +788,28 @@ AnimatorStateTransition:
   m_Conditions: []
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102669459980600392}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
+  m_ExitTime: 0
+  m_HasExitTime: 1
+  m_HasFixedDuration: 0
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
+--- !u!1101 &1101868431829516712
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions: []
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 1102297466105367936}
   m_Solo: 0
   m_Mute: 0
   m_IsExit: 0
@@ -799,7 +876,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: enemy_run_top
+  m_Name: minion_running_top
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -813,7 +890,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 16affe788b89d1049a078215be554616, type: 2}
+  m_Motion: {fileID: 7400000, guid: 1c18b1837d9ae5a47b531d08eaada85a, type: 2}
   m_Tag: 
   m_SpeedParameter: speed
   m_MirrorParameter: 
@@ -826,7 +903,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: enemy_iddle
+  m_Name: minion_iddle
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -839,10 +916,38 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 29776da8a1b5e7342b7887a431a80dde, type: 2}
+  m_Motion: {fileID: 7400000, guid: 3dda18da7ec9b0a438d18c3b790d7038, type: 2}
   m_Tag: 
   m_SpeedParameter: speed
   m_MirrorParameter: attack
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &1102337156691113002
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: minion_dead
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions:
+  - {fileID: 1101868431829516712}
+  m_StateMachineBehaviours:
+  - {fileID: 114466351882927320}
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 1
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: d50f84ab16dbac74ea3e9d0595f70dd0, type: 2}
+  m_Tag: 
+  m_SpeedParameter: speed
+  m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
 --- !u!1102 &1102386412368049242
@@ -960,7 +1065,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: enemy_attack_down
+  m_Name: minion_attack_bottom
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -975,7 +1080,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 6ca64749d85b42d45afa7f5f9f653b47, type: 2}
+  m_Motion: {fileID: 7400000, guid: 49c904a4319b126468b682cff1a606c9, type: 2}
   m_Tag: 
   m_SpeedParameter: speed
   m_MirrorParameter: 
@@ -1016,7 +1121,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: enemy_run_down
+  m_Name: minion_running_bottom
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1030,7 +1135,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 331f8d5f353405846818770f394aa60c, type: 2}
+  m_Motion: {fileID: 7400000, guid: 3dda18da7ec9b0a438d18c3b790d7038, type: 2}
   m_Tag: 
   m_SpeedParameter: speed
   m_MirrorParameter: 
@@ -1043,7 +1148,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: enemy_run_right
+  m_Name: minion_running_right
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1057,7 +1162,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: b5e5931f35709024c9351f46cb64811e, type: 2}
+  m_Motion: {fileID: 7400000, guid: 5f2b7571d011fb34a996fdee753386da, type: 2}
   m_Tag: 
   m_SpeedParameter: speed
   m_MirrorParameter: 
@@ -1070,7 +1175,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: enemy_run_left
+  m_Name: minion_running_left
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1084,7 +1189,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 00c7e57255252034ba48b0b1332e905c, type: 2}
+  m_Motion: {fileID: 7400000, guid: c402d76fd92fe88479c2af49aa237ff1, type: 2}
   m_Tag: 
   m_SpeedParameter: speed
   m_MirrorParameter: 
@@ -1320,6 +1425,9 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: 1102779322848151464}
     m_Position: {x: 444, y: -240, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 1102337156691113002}
+    m_Position: {x: 240, y: 84, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: 1101063001600768652}
@@ -1327,6 +1435,7 @@ AnimatorStateMachine:
   - {fileID: 1101693890431129780}
   - {fileID: 1101113474480074680}
   - {fileID: 1101765124981269516}
+  - {fileID: 1101775237139936640}
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
