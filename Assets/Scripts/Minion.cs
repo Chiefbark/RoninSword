@@ -11,19 +11,20 @@ public class Minion : BasicScriptBehaviour
 
     private bool attack;    // Flag variable to check if the Minion has to attack or not
 
+    // The base speed of the Minion
     public float Speed { get; set; }
+    // The index of the Minion, indicates the order of the Minion
     public int Index { get; set; }
 
-    private int delay;
+    // Delay with which the Minion appears
     public int Delay { get; set; }
+    private int delay;  // Delay counter
 
     protected override void OnStart()
     {
         delay = 0;
         transform.position = InitPosition;
         currTargetPosition = InitPosition;
-
-        //targetList = new Queue<Vector2>();
     }
 
     protected override void StatusLiveBehaviour()
@@ -79,6 +80,7 @@ public class Minion : BasicScriptBehaviour
         if (expectedIndex == Index)
         {
             // Delays the blood effect
+            // Once the blood effect is gone, it will active the death behaviour
             StartCoroutine(Blood());
             return true;
         }
@@ -88,7 +90,7 @@ public class Minion : BasicScriptBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Creates the blood effect
     /// </summary>
     /// <returns></returns>
     private IEnumerator Blood()
@@ -152,13 +154,16 @@ public class Minion : BasicScriptBehaviour
     /// </summary>
     private void OnMouseDown()
     {
-        // Notifies the GameRuler that this Minion has been clicked
-        GameObject.Find("GameRuler").GetComponent<GameRuler>().NotifyClick(this);
-        // Loads and places the select effect
-        GameObject select = (GameObject)Instantiate(Resources.Load("select"));
-        select.transform.SetParent(transform);
-        select.transform.localPosition = new Vector2(0, -0.3f);
-        // Destroys the collider so the Minion cannot be clicked again
-        Destroy(GetComponent<BoxCollider2D>());
+        if (GameRuler.GAMESTATUS == GameRuler.GAME_STATUS_LIVE)
+        {
+            // Notifies the GameRuler that this Minion has been clicked
+            GameObject.Find("GameRuler").GetComponent<GameRuler>().NotifyClick(this);
+            // Loads and places the select effect
+            GameObject select = (GameObject)Instantiate(Resources.Load("select"));
+            select.transform.SetParent(transform);
+            select.transform.localPosition = new Vector2(0, -0.3f);
+            // Destroys the collider so the Minion cannot be clicked again
+            Destroy(GetComponent<BoxCollider2D>());
+        }
     }
 }
