@@ -86,14 +86,12 @@ public class Player : BasicScriptBehaviour
     /// </summary>
     private void HandleAttack()
     {
+        // Resets the attack flag
+        attack = false;
         // If the Player kills the Enemy
         if (currEnemy.Kill(nEnemies++))
-        {
-            // Resets the attack flag
-            attack = false;
             // Sets the attack to the animator
             GetComponent<Animator>().SetBool("attack", true);
-        }
         // If the Player failed
         else
         {
@@ -120,6 +118,11 @@ public class Player : BasicScriptBehaviour
     /// <param name="forceDirection">If the Player has to move in a specific direction</param>
     private void MoveTo(Vector2 targetPosition, bool attack, int forceDirection = -5)
     {
+        // If the target position is different than the init position
+        if (targetPosition != initPosition)
+            // Substract 1 point to the y axis
+            targetPosition -= new Vector2(0, 1);
+
         // Sets the attack flag
         this.attack = attack;
         // Sets the target position where to move
