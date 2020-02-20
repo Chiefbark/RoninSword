@@ -209,7 +209,7 @@ SpriteRenderer:
   m_Size: {x: 0.84, y: 0.84}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &375926743
@@ -224,7 +224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc5142e3b10761b40bfba72bf87baacb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.5
+  Speed: 1
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -265,7 +265,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
-  gameStatus: 0
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
