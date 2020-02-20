@@ -74,7 +74,7 @@ public class GameRuler : MonoBehaviour
         // TODO: improve radnom stage generator
         // TODO: remove hardcoded values for boss
         // Generates a random number of Enemies
-        nEnemies = Random.Range(3, 5);
+        nEnemies = Random.Range(3, 3);
         // List of possible values
         List<int> positions = new List<int>(new int[] { 0, 1, 2, 3, 4, 5 });
         // List of possible target values
