@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Minion : Enemy
 {
-    // The index of the Minion, indicates the order of the Minion
+    // The index of the Minion, indicates the order
     public int Index { get; set; }
 
     public override bool Kill(int expectedIndex)
