@@ -80,8 +80,8 @@ public class Enemy : BasicScriptBehaviour
         {
             // Delays the blood effect
             StartCoroutine(Blood());
-            // TODO: Kill Enemy
-            // Destroys the Enemy
+            // TODO: Death Enemy animation with behaviour for autodestroy
+            // The next line of code is just for testing
             Destroy(gameObject, 0.75f * GameRuler.SPEED);
             return true;
         }

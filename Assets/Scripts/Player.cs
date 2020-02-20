@@ -3,6 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+class P
+{
+
+}
+
 public class Player : BasicScriptBehaviour
 {
     private Vector2 initPosition;   // The initial position of the Player
@@ -95,7 +100,7 @@ public class Player : BasicScriptBehaviour
         // If the Player failed
         else
         {
-            // TODO: Kill the player
+            // TODO: Death Player animation
             GameRuler.GAMESTATUS = GameRuler.GAME_STATUS_OVER;
         }
     }
