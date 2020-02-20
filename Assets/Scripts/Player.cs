@@ -5,25 +5,27 @@ using UnityEngine;
 
 public class Player : BasicScriptBehaviour
 {
-    private Vector2 initPosition;   // The initial position of the Player
-    private Vector2 currTargetPosition; // The current target position of the Player where to move
-    private Minion currMinion;    // The current Minion to kill
-    private Queue<Minion> targetList;  // The queue of target Enemies pending to kill
+    // The initial position of the Player
+    private Vector2 InitPosition { get; set; }
+    // The queue of target Enemies pending to kill
+    private Queue<Enemy> TargetList = new Queue<Enemy>();
+    // The current target position of the Player where to move
+    private Vector2 CurrTargetPosition { get; set; }
+    // The current Enemy to kill
+    private Enemy CurrTargetEnemy { get; set; }
     private int nEnemies;   // Count of Enemies dequeues from the target list
 
     [SerializeField] // DEBUG
-    private float Speed;    // The base speed of the Player
-
-    private bool attack;    // Flag variable to check if the Player has to attack or not
-
+    // The base speed of the Player
+    private float Speed;
+    // Flag variable to check if the Player has to attack or not
+    private bool Attack { get; set; }
     private int shadowCounter;
 
     protected override void OnStart()
     {
-        initPosition = transform.position;
-        currTargetPosition = initPosition;
-
-        targetList = new Queue<Minion>();
+        InitPosition = transform.position;
+        CurrTargetPosition = InitPosition;
     }
 
     protected override void StatusLiveBehaviour()
@@ -31,23 +33,24 @@ public class Player : BasicScriptBehaviour
         // Updates the speed of the animator
         GetComponent<Animator>().SetFloat("speed", GameRuler.SPEED);
         // If the current position is not the target position
-        if ((Vector2)transform.position != currTargetPosition)
+        if ((Vector2)transform.position != CurrTargetPosition)
             HandleMovement();
         // If the Player has to attack
-        else if (attack)
+        else if (Attack)
             HandleAttack();
         // if there are more target positions inside the queue
-        else if (!GetComponent<Animator>().GetBool("attack") && targetList.Count > 0)
+        else if (!GetComponent<Animator>().GetBool("attack") && TargetList.Count > 0)
         {
-            // Dequeues the Minion from the list and prepares the Player to move towards it
-            currMinion = targetList.Dequeue();
-            MoveTo(currMinion.transform.position, true);
+            // Dequeues the Enemy from the list and prepares the Player to move towards it
+            CurrTargetEnemy = TargetList.Dequeue();
+            Debug.Log("TargetPosition: " + CurrTargetEnemy.transform.position);
+            MoveTo(CurrTargetEnemy.transform.position, true);
         }
         // If there are no more target positions inside the queue
         else if (!GetComponent<Animator>().GetBool("attack"))
         {
             // Moves the Player to the initial position
-            MoveTo(initPosition, false, GameRuler.DIRECTION_NONE);
+            MoveTo(InitPosition, false, GameRuler.DIRECTION_NONE);
             nEnemies = 0;
         }
     }
@@ -65,8 +68,9 @@ public class Player : BasicScriptBehaviour
     /// </summary>
     private void HandleMovement()
     {
+        Debug.Log("current position: " + transform.position + " target position: " + CurrTargetPosition);
         // Moves the Player
-        transform.position = Vector2.MoveTowards(transform.position, currTargetPosition, Speed * GameRuler.SPEED);
+        transform.position = Vector2.MoveTowards(transform.position, CurrTargetPosition, Speed * GameRuler.SPEED);
         // Creates the Player Shadow
         if (shadowCounter == 4)
         {
@@ -87,9 +91,9 @@ public class Player : BasicScriptBehaviour
     private void HandleAttack()
     {
         // Resets the attack flag
-        attack = false;
-        // If the Player kills the Minion
-        if (currMinion.Kill(nEnemies++))
+        Attack = false;
+        // If the Player kills the Enemy
+        if (CurrTargetEnemy.Kill(nEnemies++))
             // Sets the attack to the animator
             GetComponent<Animator>().SetBool("attack", true);
         // If the Player failed
@@ -102,13 +106,13 @@ public class Player : BasicScriptBehaviour
     }
 
     /// <summary>
-    /// Adds a new Minion to the targetList
+    /// Adds a new Enemy to the targetList
     /// </summary>
     /// <param name="enemy">The enemy to add</param>
-    public void AddMinion(Minion enemy)
+    public void AddEnemy(Enemy enemy)
     {
         // Adds the target position to the queue
-        targetList.Enqueue(enemy);
+        TargetList.Enqueue(enemy);
     }
 
     /// <summary>
@@ -120,7 +124,7 @@ public class Player : BasicScriptBehaviour
     private void MoveTo(Vector2 targetPosition, bool attack, int forceDirection = -5)
     {
         // Sets the attack flag
-        this.attack = attack;
+        this.Attack = attack;
 
         // Sets the default direction of the Player
         int dir = GameRuler.DIRECTION_NONE;
@@ -144,16 +148,17 @@ public class Player : BasicScriptBehaviour
         if (forceDirection >= GameRuler.DIRECTION_RIGHT && forceDirection <= GameRuler.DIRECTION_TOP)
             dir = forceDirection;
 
-        // If the target position is different than the init position
-        if (targetPosition != initPosition && dir == GameRuler.DIRECTION_TOP || dir == GameRuler.DIRECTION_BOTTOM)
+        // If the target position is different than the init position & matches any of these conditions,
+        // adds an offset to the target position
+        if (targetPosition != InitPosition && dir == GameRuler.DIRECTION_TOP || dir == GameRuler.DIRECTION_BOTTOM)
             targetPosition -= new Vector2(0, 0.5f);
-        if (targetPosition != initPosition && dir == GameRuler.DIRECTION_LEFT)
+        if (targetPosition != InitPosition && dir == GameRuler.DIRECTION_LEFT)
             targetPosition += new Vector2(0.5f, 0);
-        if (targetPosition != initPosition && dir == GameRuler.DIRECTION_RIGHT)
+        if (targetPosition != InitPosition && dir == GameRuler.DIRECTION_RIGHT)
             targetPosition -= new Vector2(0.5f, 0);
 
         // Sets the target position where to move
-        this.currTargetPosition = targetPosition;
+        CurrTargetPosition = targetPosition;
 
         // Sets the direction to the animator
         GetComponent<Animator>().SetInteger("direction", dir);
