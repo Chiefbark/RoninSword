@@ -6,8 +6,6 @@ public class GameRuler : MonoBehaviour
 {
     [SerializeField]
     private float speed; // DEBUG
-    [SerializeField]
-    private int gameStatus; // DEBUG
 
     private GameObject player;
 
@@ -55,7 +53,6 @@ public class GameRuler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GAMESTATUS = gameStatus;  // DEBUG
         SPEED = speed; // DEBUG
 
         // If all the Enemies have been clicked
@@ -99,7 +96,7 @@ public class GameRuler : MonoBehaviour
             // Sets the initial position from the initposition array
             enemy.GetComponent<Enemy>().InitPosition = InitPositions[pos];
             // Sets the target position from the targetposition array
-            enemy.GetComponent<Enemy>().TargetPosition = TargetPositions[targetPos];
+            enemy.GetComponent<Enemy>().AddTargetPosition(TargetPositions[targetPos]);
             // Adds a delay for the next Enemy
             delayMilis += 20;
         }
