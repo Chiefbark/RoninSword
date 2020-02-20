@@ -3,11 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-class P
-{
-
-}
-
 public class Player : BasicScriptBehaviour
 {
     private Vector2 initPosition;   // The initial position of the Player
