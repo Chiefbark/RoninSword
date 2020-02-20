@@ -71,6 +71,7 @@ public class GameRuler : MonoBehaviour
     /// <param name="delayMilis">The initial delay of the stage</param>
     private void GenerateStage(int delayMilis)
     {
+        // TODO: improve radnom stage generator
         // Generates a random number of Enemies
         nEnemies = Random.Range(3, 6);
         // List of possible values
