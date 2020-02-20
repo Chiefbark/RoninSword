@@ -50,11 +50,6 @@ public class Enemy : BasicScriptBehaviour
         }
     }
 
-    protected override void StatusStopBehaviour()
-    {
-        // TODO: stop select & blood animation
-    }
-
     protected override void StatusOverBehaviour()
     {
         // If the Enemy has to attack
@@ -63,6 +58,14 @@ public class Enemy : BasicScriptBehaviour
             attack = false;
             GetComponent<Animator>().SetBool("attack", true);
         }
+    }
+
+    protected override void OnGameStatusChanged(int newStatus)
+    {
+        if (newStatus == GameRuler.GAME_STATUS_STOP)
+            GetComponent<Animator>().enabled = false;
+        else
+            GetComponent<Animator>().enabled = true;
     }
 
     /// <summary>
@@ -78,6 +81,8 @@ public class Enemy : BasicScriptBehaviour
             // Delays the blood effect
             StartCoroutine(Blood());
             // TODO: Kill Enemy
+            // Destroys the Enemy
+            Destroy(gameObject, 0.75f * GameRuler.SPEED);
             return true;
         }
         // Enables the attack flag
