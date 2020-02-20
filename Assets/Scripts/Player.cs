@@ -96,6 +96,7 @@ public class Player : BasicScriptBehaviour
         else
         {
             // TODO: Death Player animation
+            GetComponent<Animator>().SetBool("dead", true);
             GameRuler.GAMESTATUS = GameRuler.GAME_STATUS_OVER;
         }
     }
@@ -118,20 +119,13 @@ public class Player : BasicScriptBehaviour
     /// <param name="forceDirection">If the Player has to move in a specific direction</param>
     private void MoveTo(Vector2 targetPosition, bool attack, int forceDirection = -5)
     {
-        // If the target position is different than the init position
-        if (targetPosition != initPosition)
-            // Substract 1 point to the y axis
-            targetPosition -= new Vector2(0, 1);
-
         // Sets the attack flag
         this.attack = attack;
-        // Sets the target position where to move
-        this.currTargetPosition = targetPosition;
 
         // Sets the default direction of the Player
         int dir = GameRuler.DIRECTION_NONE;
         // Calculates the difference between the target position and current position
-        Vector2 diff = this.currTargetPosition - (Vector2)transform.position;
+        Vector2 diff = targetPosition - (Vector2)transform.position;
 
         // Bottom direction
         if (diff.y < 0 && Mathf.Abs(diff.x) < Mathf.Abs(diff.y) || Mathf.Abs(diff.x) == Mathf.Abs(diff.y))
@@ -149,6 +143,14 @@ public class Player : BasicScriptBehaviour
         // If the force direction is inside the bounds
         if (forceDirection >= GameRuler.DIRECTION_RIGHT && forceDirection <= GameRuler.DIRECTION_TOP)
             dir = forceDirection;
+
+        // If the target position is different than the init position
+        if (targetPosition != initPosition && dir == GameRuler.DIRECTION_TOP)
+            // Substract 1 point to the y axis
+            targetPosition -= new Vector2(0, 0.5f);
+
+        // Sets the target position where to move
+        this.currTargetPosition = targetPosition;
 
         // Sets the direction to the animator
         GetComponent<Animator>().SetInteger("direction", dir);
