@@ -7,8 +7,8 @@ public class Player : BasicScriptBehaviour
 {
     private Vector2 initPosition;   // The initial position of the Player
     private Vector2 currTargetPosition; // The current target position of the Player where to move
-    private Enemy currEnemy;    // The current Enemy to kill
-    private Queue<Enemy> targetList;  // The queue of target Enemies pending to kill
+    private Minion currMinion;    // The current Minion to kill
+    private Queue<Minion> targetList;  // The queue of target Enemies pending to kill
     private int nEnemies;   // Count of Enemies dequeues from the target list
 
     [SerializeField] // DEBUG
@@ -23,7 +23,7 @@ public class Player : BasicScriptBehaviour
         initPosition = transform.position;
         currTargetPosition = initPosition;
 
-        targetList = new Queue<Enemy>();
+        targetList = new Queue<Minion>();
     }
 
     protected override void StatusLiveBehaviour()
@@ -39,9 +39,9 @@ public class Player : BasicScriptBehaviour
         // if there are more target positions inside the queue
         else if (!GetComponent<Animator>().GetBool("attack") && targetList.Count > 0)
         {
-            // Dequeues the Enemy from the list and prepares the Player to move towards it
-            currEnemy = targetList.Dequeue();
-            MoveTo(currEnemy.transform.position, true);
+            // Dequeues the Minion from the list and prepares the Player to move towards it
+            currMinion = targetList.Dequeue();
+            MoveTo(currMinion.transform.position, true);
         }
         // If there are no more target positions inside the queue
         else if (!GetComponent<Animator>().GetBool("attack"))
@@ -88,8 +88,8 @@ public class Player : BasicScriptBehaviour
     {
         // Resets the attack flag
         attack = false;
-        // If the Player kills the Enemy
-        if (currEnemy.Kill(nEnemies++))
+        // If the Player kills the Minion
+        if (currMinion.Kill(nEnemies++))
             // Sets the attack to the animator
             GetComponent<Animator>().SetBool("attack", true);
         // If the Player failed
@@ -101,10 +101,10 @@ public class Player : BasicScriptBehaviour
     }
 
     /// <summary>
-    /// Adds a new Enemy to the targetList
+    /// Adds a new Minion to the targetList
     /// </summary>
     /// <param name="enemy">The enemy to add</param>
-    public void AddEnemy(Enemy enemy)
+    public void AddMinion(Minion enemy)
     {
         // Adds the target position to the queue
         targetList.Enqueue(enemy);
