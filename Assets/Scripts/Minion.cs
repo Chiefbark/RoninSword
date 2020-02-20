@@ -80,9 +80,6 @@ public class Minion : BasicScriptBehaviour
         {
             // Delays the blood effect
             StartCoroutine(Blood());
-            // TODO: Death Minion animation with behaviour for autodestroy
-            // The next line of code is just for testing
-            //Destroy(gameObject, 0.75f * (1 / GameRuler.SPEED));
             return true;
         }
         // Enables the attack flag
