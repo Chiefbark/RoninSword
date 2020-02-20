@@ -38,13 +38,13 @@ public class GameRuler : MonoBehaviour
     // Total number of Enemies of the stage
     private int nEnemies;
     // Stores the click order of the Enemies
-    private List<Enemy> clickOrder;
+    private List<Minion> clickOrder;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("Player");
-        clickOrder = new List<Enemy>();
+        clickOrder = new List<Minion>();
         SPEED = speed;
         GAMESTATUS = GAME_STATUS_LIVE;
         GenerateStage(50);
@@ -59,8 +59,8 @@ public class GameRuler : MonoBehaviour
         if (clickOrder.Count == nEnemies)
         {
             // Adds all the Enemies to the Player target list
-            foreach (Enemy enemy in clickOrder)
-                player.GetComponent<Player>().AddEnemy(enemy);
+            foreach (Minion enemy in clickOrder)
+                player.GetComponent<Player>().AddMinion(enemy);
             nEnemies = 0;
         }
     }
@@ -79,14 +79,14 @@ public class GameRuler : MonoBehaviour
         List<int> targetPositions = new List<int>(new int[] { 0, 1, 2, 3, 4, 5 });
         for (int ii = 0; ii < nEnemies; ii++)
         {
-            // Loads the Enemy prefab
-            GameObject enemy = (GameObject)Instantiate(Resources.Load("Enemy"));
-            // Sets the speed of the Enemy
-            enemy.GetComponent<Enemy>().Speed = 0.5f;
-            // Sets the enter delay of the Enemy
-            enemy.GetComponent<Enemy>().Delay = delayMilis;
-            // Sets the order click of the Enemy
-            enemy.GetComponent<Enemy>().Index = ii;
+            // Loads the Minion prefab
+            GameObject enemy = (GameObject)Instantiate(Resources.Load("Minion"));
+            // Sets the speed of the Minion
+            enemy.GetComponent<Minion>().Speed = 0.5f;
+            // Sets the enter delay of the Minion
+            enemy.GetComponent<Minion>().Delay = delayMilis;
+            // Sets the order click of the Minion
+            enemy.GetComponent<Minion>().Index = ii;
             // Randomizes a position and removes it from the list so it cannot be repeated
             int pos = positions[Random.Range(0, positions.Count)];
             // Randomizes a target position and removes it from the list so it cannot be repeated
@@ -94,19 +94,19 @@ public class GameRuler : MonoBehaviour
             positions.Remove(pos);
             targetPositions.Remove(targetPos);
             // Sets the initial position from the initposition array
-            enemy.GetComponent<Enemy>().InitPosition = InitPositions[pos];
+            enemy.GetComponent<Minion>().InitPosition = InitPositions[pos];
             // Sets the target position from the targetposition array
-            enemy.GetComponent<Enemy>().AddTargetPosition(TargetPositions[targetPos]);
-            // Adds a delay for the next Enemy
+            enemy.GetComponent<Minion>().AddTargetPosition(TargetPositions[targetPos]);
+            // Adds a delay for the next Minion
             delayMilis += 20;
         }
     }
 
     /// <summary>
-    /// Adds the Enemy to the click order list
+    /// Adds the Minion to the click order list
     /// </summary>
-    /// <param name="enemy">The Enemy to add</param>
-    public void NotifyClick(Enemy enemy)
+    /// <param name="enemy">The Minion to add</param>
+    public void NotifyClick(Minion enemy)
     {
         clickOrder.Add(enemy);
     }
