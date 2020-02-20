@@ -12,7 +12,7 @@ public class Player : BasicScriptBehaviour
     private int nEnemies;   // Count of Enemies dequeues from the target list
 
     [SerializeField] // DEBUG
-    private float speed;    // The base speed of the Player
+    private float Speed;    // The base speed of the Player
 
     private bool attack;    // Flag variable to check if the Player has to attack or not
 
@@ -66,7 +66,7 @@ public class Player : BasicScriptBehaviour
     private void HandleMovement()
     {
         // Moves the Player
-        transform.position = Vector2.MoveTowards(transform.position, currTargetPosition, speed * GameRuler.SPEED);
+        transform.position = Vector2.MoveTowards(transform.position, currTargetPosition, Speed * GameRuler.SPEED);
         // Creates the Player Shadow
         if (shadowCounter == 4)
         {
@@ -95,7 +95,7 @@ public class Player : BasicScriptBehaviour
         // If the Player failed
         else
         {
-            // TODO: Death Player animation
+            // TODO: improve the dead animation
             GetComponent<Animator>().SetBool("dead", true);
             GameRuler.GAMESTATUS = GameRuler.GAME_STATUS_OVER;
         }
@@ -145,9 +145,12 @@ public class Player : BasicScriptBehaviour
             dir = forceDirection;
 
         // If the target position is different than the init position
-        if (targetPosition != initPosition && dir == GameRuler.DIRECTION_TOP)
-            // Substract 1 point to the y axis
+        if (targetPosition != initPosition && dir == GameRuler.DIRECTION_TOP || dir == GameRuler.DIRECTION_BOTTOM)
             targetPosition -= new Vector2(0, 0.5f);
+        if (targetPosition != initPosition && dir == GameRuler.DIRECTION_LEFT)
+            targetPosition += new Vector2(0.5f, 0);
+        if (targetPosition != initPosition && dir == GameRuler.DIRECTION_RIGHT)
+            targetPosition -= new Vector2(0.5f, 0);
 
         // Sets the target position where to move
         this.currTargetPosition = targetPosition;
