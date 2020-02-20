@@ -10,7 +10,7 @@ public class attack_behaviour : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         InitScale = animator.gameObject.transform.localScale;
-        if (animator.gameObject.GetComponent<Player>() != null && animator.GetInteger("direction") == GameRuler.DIRECTION_TOP)
+        if (animator.gameObject.GetComponent<Player>() != null && animator.GetInteger("direction") == GameRuler.DIRECTION_TOP || animator.GetInteger("direction") == GameRuler.DIRECTION_BOTTOM)
             animator.gameObject.transform.localScale += InitScale * 0.4f;
     }
 
@@ -23,7 +23,7 @@ public class attack_behaviour : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (animator.gameObject.GetComponent<Player>() != null && animator.GetInteger("direction") == GameRuler.DIRECTION_TOP)
+        if (animator.gameObject.GetComponent<Player>() != null && animator.GetInteger("direction") == GameRuler.DIRECTION_TOP || animator.GetInteger("direction") == GameRuler.DIRECTION_BOTTOM)
             animator.gameObject.transform.localScale -= InitScale * 0.4f;
         animator.SetBool("attack", false);
     }
