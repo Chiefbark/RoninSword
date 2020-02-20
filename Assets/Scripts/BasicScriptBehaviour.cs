@@ -4,15 +4,23 @@ using UnityEngine;
 
 public abstract class BasicScriptBehaviour : MonoBehaviour
 {
+    private int prevGameStatus;
     // Start is called before the first frame update
     void Start()
     {
+        prevGameStatus = GameRuler.GAMESTATUS;
         OnStart();
     }
 
     // Update is called once per frame
     void Update()
     {
+        // Detects whenever the game status changes
+        if (GameRuler.GAMESTATUS != prevGameStatus)
+            OnGameStatusChanged(GameRuler.GAMESTATUS);
+
+        prevGameStatus = GameRuler.GAMESTATUS;
+
         if (GameRuler.GAMESTATUS == GameRuler.GAME_STATUS_LIVE)
             StatusLiveBehaviour();
         if (GameRuler.GAMESTATUS == GameRuler.GAME_STATUS_STOP)
@@ -34,10 +42,16 @@ public abstract class BasicScriptBehaviour : MonoBehaviour
     /// <summary>
     /// Handles the behaviour of the Object when the game is stopped
     /// </summary>
-    protected abstract void StatusStopBehaviour();
+    protected virtual void StatusStopBehaviour() { }
 
     /// <summary>
     /// Handles the behaviour of the Object when the game is over
     /// </summary>
-    protected abstract void StatusOverBehaviour();
+    protected virtual void StatusOverBehaviour() { }
+
+    /// <summary>
+    /// Notifies whenever the game status has been changed
+    /// </summary>
+    /// <param name="newStatus">The new game status of the game</param>
+    protected virtual void OnGameStatusChanged(int newStatus) { }
 }
