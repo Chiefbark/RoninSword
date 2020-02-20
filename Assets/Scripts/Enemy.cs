@@ -93,7 +93,7 @@ public abstract class Enemy : BasicScriptBehaviour
     private void MoveTo(Vector2 targetPosition, int forceDirection = -5)
     {
         // Sets the target position where to move
-        this.CurrTargetPosition = targetPosition;
+        CurrTargetPosition = targetPosition;
 
         // Sets the default direction of the Player
         int dir = GameRuler.DIRECTION_NONE;
@@ -124,7 +124,7 @@ public abstract class Enemy : BasicScriptBehaviour
     /// <summary>
     /// Detects when the Enemy has been clicked
     /// </summary>
-    private void OnMouseDown()
+    protected virtual void OnMouseDown()
     {
         if (GameRuler.GAMESTATUS == GameRuler.GAME_STATUS_LIVE)
         {
