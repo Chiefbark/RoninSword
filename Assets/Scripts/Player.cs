@@ -68,7 +68,6 @@ public class Player : BasicScriptBehaviour
     /// </summary>
     private void HandleMovement()
     {
-        Debug.Log("current position: " + transform.position + " target position: " + CurrTargetPosition);
         // Moves the Player
         transform.position = Vector2.MoveTowards(transform.position, CurrTargetPosition, Speed * GameRuler.SPEED);
         // Creates the Player Shadow
