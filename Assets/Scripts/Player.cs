@@ -43,7 +43,6 @@ public class Player : BasicScriptBehaviour
         {
             // Dequeues the Enemy from the list and prepares the Player to move towards it
             CurrTargetEnemy = TargetList.Dequeue();
-            Debug.Log("TargetPosition: " + CurrTargetEnemy.transform.position);
             MoveTo(CurrTargetEnemy.transform.position, true);
         }
         // If there are no more target positions inside the queue
