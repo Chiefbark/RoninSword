@@ -16,7 +16,7 @@ public class MenuManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GetComponent<AudioSource>().volume = AppManager.VOLUME_MUSIC;
+        GetComponent<AudioSource>().volume = AppManager.VOLUME;
 
         GameObject.Find("Background").GetComponent<Image>().material.mainTextureOffset += new Vector2(0.0005f, 0);
     }
