@@ -19,6 +19,8 @@ public class Minion : Enemy
         }
         // Enables the attack flag
         Attack = true;
+        // Playes the sound effect asociated
+        GetComponent<AudioSource>().Play();
         return false;
     }
 
