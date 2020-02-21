@@ -13,7 +13,8 @@ public class Background : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        foreach (Material m in GetComponent<Renderer>().materials)
-            m.mainTextureOffset += new Vector2(0, 0.01f * GameRuler.SPEED);
+        if (GameRuler.GAMESTATUS == GameRuler.GAME_STATUS_LIVE)
+            foreach (Material m in GetComponent<Renderer>().materials)
+                m.mainTextureOffset += new Vector2(0, 0.01f * GameRuler.SPEED);
     }
 }
