@@ -33,6 +33,6 @@ public class Minion : Enemy
         GameObject blood = (GameObject)Instantiate(Resources.Load("blood"));
         blood.GetComponent<Animator>().SetFloat("speed", GameRuler.SPEED);
         blood.transform.SetParent(transform);
-        blood.transform.localPosition = new Vector2(0, 0.2f);
+        blood.transform.localPosition = Vector2.zero;
     }
 }
