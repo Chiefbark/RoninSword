@@ -1,12 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameRuler : MonoBehaviour
 {
     [SerializeField]
     private float speed; // DEBUG
+
+    [SerializeField]
+    private GameObject Canvas;
+    [SerializeField]
+    private GameObject Menus;
 
     private GameObject player;
 
@@ -154,6 +160,7 @@ public class GameRuler : MonoBehaviour
     /// </summary>
     public void OnVolumeClicked()
     {
+        Canvas.GetComponent<AudioSource>().Play();
         if (AppManager.VOLUME == AppManager.VOLUME_MAX)
         {
             AppManager.VOLUME = AppManager.VOLUME_MIN;
@@ -164,5 +171,43 @@ public class GameRuler : MonoBehaviour
             AppManager.VOLUME = AppManager.VOLUME_MAX;
             GameObject.Find("Sound").GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/volume_up");
         }
+    }
+
+    /// <summary>
+    /// Handles the behaviour of the button Pause
+    /// </summary>
+    public void OnPauseClicked()
+    {
+        Canvas.GetComponent<AudioSource>().Play();
+        Menus.SetActive(true);
+        GAMESTATUS = GAME_STATUS_STOP;
+    }
+
+    /// <summary>
+    /// Handles the behaviour of the button Resume
+    /// </summary>
+    public void OnResumeClicked()
+    {
+        Canvas.GetComponent<AudioSource>().Play();
+        Menus.SetActive(false);
+        GAMESTATUS = GAME_STATUS_LIVE;
+    }
+
+    /// <summary>
+    /// Handles the behaviour of the button Restart
+    /// </summary>
+    public void OnRestartClicked()
+    {
+        Canvas.GetComponent<AudioSource>().Play();
+        SceneManager.LoadScene(AppManager.SCENE_GAME);
+    }
+
+    /// <summary>
+    /// Handles the behaviour of the button Quit
+    /// </summary>
+    public void OnQuitClicked()
+    {
+        Canvas.GetComponent<AudioSource>().Play();
+        SceneManager.LoadScene(AppManager.SCENE_MENU);
     }
 }
