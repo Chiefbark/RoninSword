@@ -33,6 +33,8 @@ public class Boss : Enemy
         }
         // Enables the attack flag
         Attack = true;
+        // Playes the sound effect asociated
+        GetComponent<AudioSource>().Play();
         return false;
     }
 
@@ -57,10 +59,19 @@ public class Boss : Enemy
             nClick++;
             // Notifies the GameRuler that this Enemy has been clicked
             GameObject.Find("GameRuler").GetComponent<GameRuler>().NotifyClick(this);
-            // Loads and places the select effect
-            GameObject select = (GameObject)Instantiate(Resources.Load("select"));
-            select.transform.SetParent(transform);
-            select.transform.localPosition = new Vector2(0, -0.3f);
+            GameObject select;
+            if (GetComponentsInChildren<Renderer>().Length <= 2)
+            {
+                // Loads and places the select effect
+                select = (GameObject)Instantiate(Resources.Load("select"));
+                select.transform.SetParent(transform);
+                select.transform.localPosition = new Vector2(0, -0.3f);
+            }
+            else
+            {
+                select = GetComponentsInChildren<Renderer>()[2].gameObject;
+                select.GetComponent<Animator>().speed += 1;
+            }
             if (nClick == MaxClick)
                 // Destroys the collider so the Enemy cannot be clicked again
                 Destroy(GetComponent<BoxCollider2D>());
