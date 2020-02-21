@@ -14,7 +14,7 @@ public class MenuManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        GetComponent<AudioSource>().volume = AppManager.VOLUME_MUSIC;
     }
 
     public void PlayMenu()
