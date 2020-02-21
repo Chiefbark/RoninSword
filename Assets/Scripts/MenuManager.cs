@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
+
     // Start is called before the first frame update
     void Start()
     {
@@ -15,11 +17,13 @@ public class MenuManager : MonoBehaviour
     void Update()
     {
         GetComponent<AudioSource>().volume = AppManager.VOLUME_MUSIC;
+
+        GameObject.Find("Background").GetComponent<Image>().material.mainTextureOffset += new Vector2(0.0005f, 0);
     }
 
     public void PlayMenu()
     {
-        SceneManager.LoadScene(AppManager.GAME_SCENE);
+        SceneManager.LoadScene(AppManager.SCENE_GAME);
     }
 
     public void OptionsMenu()
