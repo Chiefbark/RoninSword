@@ -192,6 +192,7 @@ public class GameRuler : MonoBehaviour
     {
         Canvas.GetComponent<AudioSource>().Play();
         SceneManager.LoadScene(AppManager.SCENE_GAME);
+        GAMESTATUS = GAME_STATUS_LIVE;
     }
 
     /// <summary>
@@ -201,5 +202,6 @@ public class GameRuler : MonoBehaviour
     {
         Canvas.GetComponent<AudioSource>().Play();
         SceneManager.LoadScene(AppManager.SCENE_MENU);
+        GAMESTATUS = GAME_STATUS_LIVE;
     }
 }
