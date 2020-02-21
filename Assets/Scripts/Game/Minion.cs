@@ -32,7 +32,7 @@ public class Minion : Enemy
     {
         yield return new WaitForSeconds(0.2f * (1 / GameRuler.SPEED));
         // Loads and places the blood effect
-        GameObject blood = (GameObject)Instantiate(Resources.Load("blood"));
+        GameObject blood = (GameObject)Instantiate(Resources.Load("Prefabs/blood"));
         blood.GetComponent<Animator>().SetFloat("speed", GameRuler.SPEED);
         blood.transform.SetParent(transform);
         blood.transform.localPosition = Vector2.zero;

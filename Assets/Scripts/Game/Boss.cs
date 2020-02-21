@@ -46,7 +46,7 @@ public class Boss : Enemy
     {
         yield return new WaitForSeconds(0.2f * (1 / GameRuler.SPEED));
         // Loads and places the blood effect
-        GameObject blood = (GameObject)Instantiate(Resources.Load("blood"));
+        GameObject blood = (GameObject)Instantiate(Resources.Load("Prefabs/blood"));
         blood.GetComponent<Animator>().SetFloat("speed", GameRuler.SPEED);
         blood.transform.SetParent(transform);
         blood.transform.localPosition = new Vector2(0, 0.1f);
@@ -63,7 +63,7 @@ public class Boss : Enemy
             if (GetComponentsInChildren<Renderer>().Length <= 2)
             {
                 // Loads and places the select effect
-                select = (GameObject)Instantiate(Resources.Load("select"));
+                select = (GameObject)Instantiate(Resources.Load("Prefabs/select"));
                 select.transform.SetParent(transform);
                 select.transform.localPosition = new Vector2(0, -0.3f);
             }

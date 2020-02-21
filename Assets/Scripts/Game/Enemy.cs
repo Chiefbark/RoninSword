@@ -131,7 +131,7 @@ public abstract class Enemy : BasicScriptBehaviour
             // Notifies the GameRuler that this Enemy has been clicked
             GameObject.Find("GameRuler").GetComponent<GameRuler>().NotifyClick(this);
             // Loads and places the select effect
-            GameObject select = (GameObject)Instantiate(Resources.Load("select"));
+            GameObject select = (GameObject)Instantiate(Resources.Load("Prefabs/select"));
             select.transform.SetParent(transform);
             select.transform.localPosition = new Vector2(0, -0.3f);
             // Destroys the collider so the Enemy cannot be clicked again
