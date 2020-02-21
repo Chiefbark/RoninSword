@@ -32,6 +32,7 @@ public class Player : BasicScriptBehaviour
     {
         // Updates the speed of the animator
         GetComponent<Animator>().SetFloat("speed", GameRuler.SPEED);
+
         // If the current position is not the target position
         if ((Vector2)transform.position != CurrTargetPosition)
             HandleMovement();
@@ -92,8 +93,12 @@ public class Player : BasicScriptBehaviour
         Attack = false;
         // If the Player kills the Enemy
         if (CurrTargetEnemy.Kill(nEnemies++))
+        {
             // Sets the attack to the animator
             GetComponent<Animator>().SetBool("attack", true);
+            // Playes the sound effect asociated
+            GetComponent<AudioSource>().Play();
+        }
         // If the Player failed
         else
         {
