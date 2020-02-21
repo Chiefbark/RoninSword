@@ -11,6 +11,9 @@ public class MenuManager : MonoBehaviour
     void Start()
     {
         GameObject.Find("Background").GetComponent<Image>().material.mainTextureOffset = Vector2.zero;
+
+        if (AppManager.VOLUME == AppManager.VOLUME_MIN)
+            GameObject.Find("Sound").GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/volume_off");
     }
 
     // Update is called once per frame
