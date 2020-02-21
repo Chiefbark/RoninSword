@@ -19,6 +19,14 @@ public abstract class BasicScriptBehaviour : MonoBehaviour
         if (GameRuler.GAMESTATUS != prevGameStatus)
             OnGameStatusChanged(GameRuler.GAMESTATUS);
 
+        if (GetComponent<AudioSource>() != null)
+        {
+            // Updated the sound effects volume
+            GetComponent<AudioSource>().volume = GameRuler.GAME_VOLUME_EFFECTS;
+            // Updates the speed of the sound effect
+            GetComponent<AudioSource>().pitch = GameRuler.SPEED;
+        }
+
         prevGameStatus = GameRuler.GAMESTATUS;
 
         if (GameRuler.GAMESTATUS == GameRuler.GAME_STATUS_LIVE)
