@@ -14,6 +14,6 @@ public class Background : MonoBehaviour
     void Update()
     {
         foreach (Material m in GetComponent<Renderer>().materials)
-            m.mainTextureOffset += new Vector2(0, 0.005f * GameRuler.SPEED);
+            m.mainTextureOffset += new Vector2(0, 0.01f * GameRuler.SPEED);
     }
 }
