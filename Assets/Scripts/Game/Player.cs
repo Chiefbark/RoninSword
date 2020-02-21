@@ -75,7 +75,7 @@ public class Player : BasicScriptBehaviour
         {
             shadowCounter = 0;
             // Loads the Player Shadow
-            GameObject shadow = (GameObject)Instantiate(Resources.Load("Player_Shadow"));
+            GameObject shadow = (GameObject)Instantiate(Resources.Load("Prefabs/Player_Shadow"));
             // Renders the current sprite into the Player Shadow
             shadow.GetComponent<SpriteRenderer>().sprite = GetComponent<SpriteRenderer>().sprite;
             // Sets the position of the Player Shadow to the current
