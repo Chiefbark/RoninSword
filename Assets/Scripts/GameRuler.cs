@@ -10,6 +10,14 @@ public class GameRuler : MonoBehaviour
     private GameObject player;
 
     public static int GAMESTATUS;
+    private int prevGameStatus;
+
+    public static float GAME_VOLUME_MUSIC;
+    public static float GAME_VOLUME_EFFECTS;
+    [SerializeField]
+    private float volumeMusic; // DEBUG
+    [SerializeField]
+    private float volumeEffects; // DEBUG
 
     public static int GAME_STATUS_STOP = -1;
     public static int GAME_STATUS_OVER = 0;
@@ -47,6 +55,8 @@ public class GameRuler : MonoBehaviour
         clickOrder = new List<Enemy>();
         SPEED = speed;
         GAMESTATUS = GAME_STATUS_LIVE;
+        prevGameStatus = GAMESTATUS;
+
         GenerateStage(50);
     }
 
@@ -54,6 +64,19 @@ public class GameRuler : MonoBehaviour
     void Update()
     {
         SPEED = speed; // DEBUG
+        GAME_VOLUME_MUSIC = volumeMusic;    // DEBUG
+        GAME_VOLUME_EFFECTS = volumeEffects;    // DEBUG
+
+        GetComponents<AudioSource>()[0].volume = GAME_VOLUME_MUSIC;
+        GetComponents<AudioSource>()[1].volume = GAME_VOLUME_MUSIC;
+        GetComponents<AudioSource>()[0].pitch = SPEED;
+        GetComponents<AudioSource>()[1].pitch = SPEED;
+
+        // Detects whenever the game status changes
+        if (GAMESTATUS != prevGameStatus)
+            OnGameStatusChanged(GAMESTATUS);
+
+        prevGameStatus = GAMESTATUS;
 
         // If all the Enemies have been clicked
         if (clickOrder.Count == nEnemies * 2)
@@ -121,5 +144,13 @@ public class GameRuler : MonoBehaviour
     public void NotifyClick(Enemy enemy)
     {
         clickOrder.Add(enemy);
+    }
+
+    private void OnGameStatusChanged(int newStatus)
+    {
+        if (GAMESTATUS == GAME_STATUS_OVER)
+        {
+            GetComponents<AudioSource>()[1].Play();
+        }
     }
 }
