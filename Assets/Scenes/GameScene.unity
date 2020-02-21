@@ -154,7 +154,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
-  volumeMusic: 0.15
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -582,7 +581,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 519420030}
-        m_MethodName: OnVolumeClick
+        m_MethodName: OnVolumeClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
