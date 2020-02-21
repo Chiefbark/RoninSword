@@ -7,16 +7,13 @@ using UnityEngine.UI;
 public class GameRuler : MonoBehaviour
 {
     [SerializeField]
-    private float speed; // DEBUG
-
-    [SerializeField]
     private GameObject Canvas;
     [SerializeField]
     private GameObject Menus;
 
-    private GameObject player;
+    private GameObject Player;
 
-    public static int GAMESTATUS;
+    public static int GAMESTATUS = 1;
     private int prevGameStatus;
 
     public static int GAME_STATUS_STOP = -1;
@@ -46,15 +43,12 @@ public class GameRuler : MonoBehaviour
     // Total number of Enemies of the stage
     private int nEnemies;
     // Stores the click order of the Enemies
-    private List<Enemy> clickOrder;
+    private List<Enemy> clickOrder = new List<Enemy>();
 
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.Find("Player");
-        clickOrder = new List<Enemy>();
-        SPEED = speed;
-        GAMESTATUS = GAME_STATUS_LIVE;
+        Player = Instantiate(Resources.Load<GameObject>("Prefabs/Player"));
         prevGameStatus = GAMESTATUS;
 
         GenerateStage(50);
@@ -66,8 +60,6 @@ public class GameRuler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        SPEED = speed; // DEBUG
-
         GetComponents<AudioSource>()[0].volume = AppManager.VOLUME;
         GetComponents<AudioSource>()[1].volume = AppManager.VOLUME;
         GetComponents<AudioSource>()[0].pitch = SPEED;
@@ -84,7 +76,7 @@ public class GameRuler : MonoBehaviour
         {
             // Adds all the Enemies to the Player target list
             foreach (Enemy enemy in clickOrder)
-                player.GetComponent<Player>().AddEnemy(enemy);
+                Player.GetComponent<Player>().AddEnemy(enemy);
             nEnemies = 0;
         }
     }
@@ -98,13 +90,13 @@ public class GameRuler : MonoBehaviour
         // TODO: improve radnom stage generator
         // TODO: remove hardcoded values for boss
         // Generates a random number of Enemies
-        nEnemies = Random.Range(3, 3);
+        nEnemies = Random.Range(3, 4);
         // List of possible values
         List<int> positions = new List<int>(new int[] { 0, 1, 2, 3, 4, 5 });
         // List of possible target values
         List<int> targetPositions = new List<int>(new int[] { 0, 1, 2, 3, 4, 5 });
 
-        GameObject boss = (GameObject)Instantiate(Resources.Load("Prefabs/Boss"));
+        GameObject boss = Instantiate(Resources.Load<GameObject>("Prefabs/Boss"));
         boss.GetComponent<Boss>().Speed = 0.1f;
         boss.GetComponent<Boss>().Delay = delayMilis - 20;
         boss.GetComponent<Boss>().MaxClick = nEnemies;
@@ -115,7 +107,7 @@ public class GameRuler : MonoBehaviour
         for (int ii = 0; ii < nEnemies; ii++)
         {
             // Loads the Enemy prefab
-            GameObject enemy = (GameObject)Instantiate(Resources.Load("Prefabs/Minion"));
+            GameObject enemy = Instantiate(Resources.Load<GameObject>("Prefabs/Minion"));
             // Sets the speed of the Enemy
             enemy.GetComponent<Minion>().Speed = 0.5f;
             // Sets the enter delay of the Enemy
@@ -124,9 +116,9 @@ public class GameRuler : MonoBehaviour
             enemy.GetComponent<Minion>().Index = index;
             // Randomizes a position and removes it from the list so it cannot be repeated
             int pos = positions[Random.Range(0, positions.Count)];
+            positions.Remove(pos);
             // Randomizes a target position and removes it from the list so it cannot be repeated
             int targetPos = targetPositions[Random.Range(0, targetPositions.Count)];
-            positions.Remove(pos);
             targetPositions.Remove(targetPos);
             // Sets the initial position from the initposition array
             enemy.GetComponent<Minion>().InitPosition = InitPositions[pos];
