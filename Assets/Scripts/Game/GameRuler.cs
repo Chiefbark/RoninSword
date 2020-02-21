@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameRuler : MonoBehaviour
 {
@@ -11,11 +12,6 @@ public class GameRuler : MonoBehaviour
 
     public static int GAMESTATUS;
     private int prevGameStatus;
-
-    [SerializeField]
-    private float volumeMusic; // DEBUG
-    [SerializeField]
-    private float volumeEffects; // DEBUG
 
     public static int GAME_STATUS_STOP = -1;
     public static int GAME_STATUS_OVER = 0;
@@ -62,11 +58,9 @@ public class GameRuler : MonoBehaviour
     void Update()
     {
         SPEED = speed; // DEBUG
-        AppManager.VOLUME_MUSIC = volumeMusic;    // DEBUG
-        AppManager.VOLUME_EFFECTS = volumeEffects;    // DEBUG
 
-        GetComponents<AudioSource>()[0].volume = AppManager.VOLUME_MUSIC;
-        GetComponents<AudioSource>()[1].volume = AppManager.VOLUME_EFFECTS;
+        GetComponents<AudioSource>()[0].volume = AppManager.VOLUME;
+        GetComponents<AudioSource>()[1].volume = AppManager.VOLUME;
         GetComponents<AudioSource>()[0].pitch = SPEED;
         GetComponents<AudioSource>()[1].pitch = SPEED;
 
@@ -149,6 +143,23 @@ public class GameRuler : MonoBehaviour
         if (GAMESTATUS == GAME_STATUS_OVER)
         {
             GetComponents<AudioSource>()[1].Play();
+        }
+    }
+
+
+
+
+    public void OnVolumeClick()
+    {
+        if (AppManager.VOLUME == AppManager.VOLUME_MAX)
+        {
+            AppManager.VOLUME = AppManager.VOLUME_MIN;
+            GameObject.Find("Sound").GetComponent<Image>().sprite = Resources.Load<Sprite>("volume_off.png");
+        }
+        else
+        {
+            AppManager.VOLUME = AppManager.VOLUME_MAX;
+            GameObject.Find("Sound").GetComponent<Image>().sprite = Resources.Load<Sprite>("volume_up.png");
         }
     }
 }
