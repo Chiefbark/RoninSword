@@ -62,11 +62,11 @@ public class GameRuler : MonoBehaviour
     void Update()
     {
         SPEED = speed; // DEBUG
-        AppManager.GAME_VOLUME_MUSIC = volumeMusic;    // DEBUG
-        AppManager.GAME_VOLUME_EFFECTS = volumeEffects;    // DEBUG
+        AppManager.VOLUME_MUSIC = volumeMusic;    // DEBUG
+        AppManager.VOLUME_EFFECTS = volumeEffects;    // DEBUG
 
-        GetComponents<AudioSource>()[0].volume = AppManager.GAME_VOLUME_MUSIC;
-        GetComponents<AudioSource>()[1].volume = AppManager.GAME_VOLUME_MUSIC;
+        GetComponents<AudioSource>()[0].volume = AppManager.VOLUME_MUSIC;
+        GetComponents<AudioSource>()[1].volume = AppManager.VOLUME_EFFECTS;
         GetComponents<AudioSource>()[0].pitch = SPEED;
         GetComponents<AudioSource>()[1].pitch = SPEED;
 

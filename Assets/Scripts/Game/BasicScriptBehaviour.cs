@@ -22,7 +22,7 @@ public abstract class BasicScriptBehaviour : MonoBehaviour
         if (GetComponent<AudioSource>() != null)
         {
             // Updated the sound effects volume
-            GetComponent<AudioSource>().volume = AppManager.GAME_VOLUME_EFFECTS;
+            GetComponent<AudioSource>().volume = AppManager.VOLUME_EFFECTS;
             // Updates the speed of the sound effect
             GetComponent<AudioSource>().pitch = GameRuler.SPEED;
         }
