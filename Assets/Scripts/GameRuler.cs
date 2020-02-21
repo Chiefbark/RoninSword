@@ -85,7 +85,7 @@ public class GameRuler : MonoBehaviour
         boss.GetComponent<Boss>().Delay = delayMilis - 20;
         boss.GetComponent<Boss>().MaxClick = nEnemies;
         boss.GetComponent<Boss>().InitPosition = new Vector2(0, 7);
-        boss.GetComponent<Boss>().AddTargetPosition(new Vector2(0, 3.5f));
+        boss.GetComponent<Boss>().AddTargetPosition(Vector2.zero);
 
         int index = 0;
         for (int ii = 0; ii < nEnemies; ii++)
