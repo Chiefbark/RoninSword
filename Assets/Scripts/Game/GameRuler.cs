@@ -146,10 +146,10 @@ public class GameRuler : MonoBehaviour
         }
     }
 
-
-
-
-    public void OnVolumeClick()
+    /// <summary>
+    /// Handles the behaviour of the button Sound
+    /// </summary>
+    public void OnVolumeClicked()
     {
         if (AppManager.VOLUME == AppManager.VOLUME_MAX)
         {
