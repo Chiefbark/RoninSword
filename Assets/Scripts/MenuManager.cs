@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject Canvas;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +31,7 @@ public class MenuManager : MonoBehaviour
     /// </summary>
     public void OnPlayClicked()
     {
+        Canvas.GetComponent<AudioSource>().Play();
         SceneManager.LoadScene(AppManager.SCENE_GAME);
     }
 
@@ -37,7 +40,7 @@ public class MenuManager : MonoBehaviour
     /// </summary>
     public void OnOptionsClicked()
     {
-
+        Canvas.GetComponent<AudioSource>().Play();
     }
 
     /// <summary>
@@ -45,6 +48,7 @@ public class MenuManager : MonoBehaviour
     /// </summary>
     public void OnQuitClicked()
     {
+        Canvas.GetComponent<AudioSource>().Play();
         Application.Quit();
     }
 
@@ -53,6 +57,7 @@ public class MenuManager : MonoBehaviour
     /// </summary>
     public void OnVolumeClicked()
     {
+        Canvas.GetComponent<AudioSource>().Play();
         if (AppManager.VOLUME == AppManager.VOLUME_MAX)
         {
             AppManager.VOLUME = AppManager.VOLUME_MIN;
