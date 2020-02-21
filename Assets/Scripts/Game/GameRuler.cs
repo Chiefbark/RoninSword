@@ -12,8 +12,6 @@ public class GameRuler : MonoBehaviour
     public static int GAMESTATUS;
     private int prevGameStatus;
 
-    public static float GAME_VOLUME_MUSIC;
-    public static float GAME_VOLUME_EFFECTS;
     [SerializeField]
     private float volumeMusic; // DEBUG
     [SerializeField]
@@ -64,11 +62,11 @@ public class GameRuler : MonoBehaviour
     void Update()
     {
         SPEED = speed; // DEBUG
-        GAME_VOLUME_MUSIC = volumeMusic;    // DEBUG
-        GAME_VOLUME_EFFECTS = volumeEffects;    // DEBUG
+        AppManager.GAME_VOLUME_MUSIC = volumeMusic;    // DEBUG
+        AppManager.GAME_VOLUME_EFFECTS = volumeEffects;    // DEBUG
 
-        GetComponents<AudioSource>()[0].volume = GAME_VOLUME_MUSIC;
-        GetComponents<AudioSource>()[1].volume = GAME_VOLUME_MUSIC;
+        GetComponents<AudioSource>()[0].volume = AppManager.GAME_VOLUME_MUSIC;
+        GetComponents<AudioSource>()[1].volume = AppManager.GAME_VOLUME_MUSIC;
         GetComponents<AudioSource>()[0].pitch = SPEED;
         GetComponents<AudioSource>()[1].pitch = SPEED;
 

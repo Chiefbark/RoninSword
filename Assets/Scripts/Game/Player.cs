@@ -15,9 +15,8 @@ public class Player : BasicScriptBehaviour
     private Enemy CurrTargetEnemy { get; set; }
     private int nEnemies;   // Count of Enemies dequeues from the target list
 
-    [SerializeField] // DEBUG
     // The base speed of the Player
-    private float Speed;
+    private float Speed { get; set; }
     // Flag variable to check if the Player has to attack or not
     private bool Attack { get; set; }
     private int shadowCounter;
@@ -26,6 +25,7 @@ public class Player : BasicScriptBehaviour
     {
         InitPosition = transform.position;
         CurrTargetPosition = InitPosition;
+        Speed = 1f;
     }
 
     protected override void StatusLiveBehaviour()
