@@ -95,7 +95,7 @@ public class GameRuler : MonoBehaviour
         // List of possible target values
         List<int> targetPositions = new List<int>(new int[] { 0, 1, 2, 3, 4, 5 });
 
-        GameObject boss = (GameObject)Instantiate(Resources.Load("Boss"));
+        GameObject boss = (GameObject)Instantiate(Resources.Load("Prefabs/Boss"));
         boss.GetComponent<Boss>().Speed = 0.1f;
         boss.GetComponent<Boss>().Delay = delayMilis - 20;
         boss.GetComponent<Boss>().MaxClick = nEnemies;
@@ -106,7 +106,7 @@ public class GameRuler : MonoBehaviour
         for (int ii = 0; ii < nEnemies; ii++)
         {
             // Loads the Enemy prefab
-            GameObject enemy = (GameObject)Instantiate(Resources.Load("Minion"));
+            GameObject enemy = (GameObject)Instantiate(Resources.Load("Prefabs/Minion"));
             // Sets the speed of the Enemy
             enemy.GetComponent<Minion>().Speed = 0.5f;
             // Sets the enter delay of the Enemy
@@ -154,12 +154,12 @@ public class GameRuler : MonoBehaviour
         if (AppManager.VOLUME == AppManager.VOLUME_MAX)
         {
             AppManager.VOLUME = AppManager.VOLUME_MIN;
-            GameObject.Find("Sound").GetComponent<Image>().sprite = Resources.Load<Sprite>("volume_off.png");
+            GameObject.Find("Sound").GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/volume_off");
         }
         else
         {
             AppManager.VOLUME = AppManager.VOLUME_MAX;
-            GameObject.Find("Sound").GetComponent<Image>().sprite = Resources.Load<Sprite>("volume_up.png");
+            GameObject.Find("Sound").GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/volume_up");
         }
     }
 }
