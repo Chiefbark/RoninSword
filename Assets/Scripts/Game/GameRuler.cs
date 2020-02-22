@@ -31,6 +31,11 @@ public class GameRuler : MonoBehaviour
     public static int DIRECTION_BOTTOM = 1;
     public static int DIRECTION_TOP = 2;
 
+    public static int MESSAGE_DEFAULT = 0;
+    private bool isMessageDefaultShown;
+    public static int MESSAGE_BOSS = 1;
+    private bool isMessageBossShown;
+
     public static float SPEED = 1f;
 
     // Posible init positions of the Enemies
@@ -63,7 +68,6 @@ public class GameRuler : MonoBehaviour
         prevGameStatus = GAMESTATUS;
 
         GenerateStage(50);
-        
         isStageEnd = false;
 
         if (AppManager.VOLUME == AppManager.VOLUME_MIN)
@@ -187,7 +191,37 @@ public class GameRuler : MonoBehaviour
     {
         enemiesPlaced++;
         if (enemiesPlaced == nEnemies)
+        {
             GAMESTATUS = GAME_STATUS_LIVE;
+            if (!isMessageDefaultShown && !hasBoss)
+            {
+                ShowHelpDialog(MESSAGE_DEFAULT);
+                isMessageDefaultShown = true;
+            }
+            else if (!isMessageBossShown && hasBoss)
+            {
+                ShowHelpDialog(MESSAGE_BOSS);
+                isMessageBossShown = true;
+            }
+        }
+    }
+
+    private void ShowHelpDialog(int msgType)
+    {
+        GAMESTATUS = GAME_STATUS_LOADING;
+        Help.SetActive(true);
+        string text = "";
+        if (msgType == MESSAGE_DEFAULT)
+            text = "Seems that the best way to overcome these guys is to kill them in order";
+        if (msgType == MESSAGE_BOSS)
+            text = "Hmmm, that boss seems pretty strong. He may tank more than one attack. I should attack him little by little";
+        GameObject.Find("HelpMessage").GetComponent<Text>().text = text;
+    }
+
+    public void HideHelpDialog()
+    {
+        GAMESTATUS = GAME_STATUS_LIVE;
+        Help.SetActive(false);
     }
 
     private void OnGameStatusChanged(int newStatus)
