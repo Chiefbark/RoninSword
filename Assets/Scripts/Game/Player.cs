@@ -56,7 +56,7 @@ public class Player : BasicScriptBehaviour
             // Moves the Player to the initial position
             MoveTo(InitPosition, false, GameRuler.DIRECTION_NONE);
             nEnemies = 0;
-            if (!end)
+            if (!end && ((Vector2)transform.position) == InitPosition)
             {
                 end = true;
                 GameObject.Find("GameRuler").GetComponent<GameRuler>().NotifyStageEnd();

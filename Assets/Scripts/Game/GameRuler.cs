@@ -103,19 +103,20 @@ public class GameRuler : MonoBehaviour
             // Generates the next stage
             GenerateStage(150);
             isStageEnd = false;
-        }
-        else
-        {
+
             // If the message dialog of the boss has not been shown
             if (hasBoss && !isMessageBossShown)
             {
-                ShowHelpDialog(MESSAGE_BOSS);
+                ShowHelpDialog(MESSAGE_BOSS, 2);
                 isMessageBossShown = true;
             }
-            // If all the Enemies have been clicked
+        }
+        else
+        {
             int count = nEnemies;
             if (hasBoss)
                 count *= 2;
+            // If all the Enemies have been clicked
             if (clickOrder.Count == count)
             {
                 // Adds all the Enemies to the Player target list
@@ -134,7 +135,7 @@ public class GameRuler : MonoBehaviour
     private void GenerateStage(int delayMilis)
     {
         // Generates a random number of Enemies
-        nEnemies = Random.Range(3, 4);
+        nEnemies = Random.Range(3, 6);
         // List of possible values
         List<int> positions = new List<int>(new int[] { 0, 1, 2, 3, 4, 5 });
         // List of possible target values
@@ -218,15 +219,28 @@ public class GameRuler : MonoBehaviour
     /// Shows the help dialog
     /// </summary>
     /// <param name="msgType">If the message is the default or the boss one</param>
-    private void ShowHelpDialog(int msgType)
+    /// <param name="delay">The delay oat which the dilog will show</param>
+    private void ShowHelpDialog(int msgType, float delay = 0)
     {
-        GAMESTATUS = GAME_STATUS_LOADING;
+        StartCoroutine(HelpDialog(msgType, delay));
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="msgType"></param>
+    /// <param name="delay"></param>
+    /// <returns></returns>
+    IEnumerator HelpDialog(int msgType, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        GAMESTATUS = GAME_STATUS_STOP;
         Help.SetActive(true);
         string text = "";
         if (msgType == MESSAGE_DEFAULT)
-            text = "Seems that the best way to overcome these guys is to kill them in order";
+            text = "The best way to overcome these guys is to kill them in order";
         if (msgType == MESSAGE_BOSS)
-            text = "Hmmm, it seems like the big boss is coming. It may take a few more hits than usual";
+            text = "Hmmm, it seems like the big boss is coming. It may take a few more hits than usual...\n(enemy, boss, enemy, boss, ...)";
         GameObject.Find("HelpMessage").GetComponent<Text>().text = text;
     }
 
