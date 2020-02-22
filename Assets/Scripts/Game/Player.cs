@@ -21,11 +21,14 @@ public class Player : BasicScriptBehaviour
     private bool Attack { get; set; }
     private int shadowCounter;
 
+    private bool end;
+
     protected override void OnStart()
     {
         InitPosition = transform.position;
         CurrTargetPosition = InitPosition;
         Speed = 1f;
+        end = true;
     }
 
     protected override void StatusLiveBehaviour()
@@ -42,6 +45,7 @@ public class Player : BasicScriptBehaviour
         // if there are more target positions inside the queue
         else if (!GetComponent<Animator>().GetBool("attack") && TargetList.Count > 0)
         {
+            end = false;
             // Dequeues the Enemy from the list and prepares the Player to move towards it
             CurrTargetEnemy = TargetList.Dequeue();
             MoveTo(CurrTargetEnemy.transform.position, true);
@@ -52,6 +56,11 @@ public class Player : BasicScriptBehaviour
             // Moves the Player to the initial position
             MoveTo(InitPosition, false, GameRuler.DIRECTION_NONE);
             nEnemies = 0;
+            if (!end)
+            {
+                end = true;
+                GameObject.Find("GameRuler").GetComponent<GameRuler>().NotifyStageEnd();
+            }
         }
     }
 

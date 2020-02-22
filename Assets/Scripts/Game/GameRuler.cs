@@ -45,6 +45,10 @@ public class GameRuler : MonoBehaviour
     // Stores the click order of the Enemies
     private List<Enemy> clickOrder = new List<Enemy>();
 
+    private bool hasBoss;
+    private bool isStageEnd;
+    private int stages = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -52,6 +56,7 @@ public class GameRuler : MonoBehaviour
         prevGameStatus = GAMESTATUS;
 
         GenerateStage(50);
+        isStageEnd = false;
 
         if (AppManager.VOLUME == AppManager.VOLUME_MIN)
             GameObject.Find("Sound").GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/volume_off");
@@ -71,15 +76,33 @@ public class GameRuler : MonoBehaviour
 
         prevGameStatus = GAMESTATUS;
 
-        // If all the Enemies have been clicked
-        if (clickOrder.Count == nEnemies * 2)
+        if (isStageEnd)
         {
-            // Adds all the Enemies to the Player target list
-            foreach (Enemy enemy in clickOrder)
-                Player.GetComponent<Player>().AddEnemy(enemy);
-            nEnemies = 0;
+            if (stages % 3 == 0)
+                hasBoss = true;
+            else
+                hasBoss = false;
+
+            GenerateStage(200);
+            isStageEnd = false;
+        }
+        else
+        {
+            // If all the Enemies have been clicked
+            int count = nEnemies;
+            if (hasBoss)
+                count *= 2;
+            if (clickOrder.Count == count)
+            {
+                // Adds all the Enemies to the Player target list
+                foreach (Enemy enemy in clickOrder)
+                    Player.GetComponent<Player>().AddEnemy(enemy);
+                nEnemies = 0;
+                clickOrder.Clear();
+            }
         }
     }
+
 
     /// <summary>
     /// Generates a pseudorandom stage
@@ -96,13 +119,15 @@ public class GameRuler : MonoBehaviour
         // List of possible target values
         List<int> targetPositions = new List<int>(new int[] { 0, 1, 2, 3, 4, 5 });
 
-        GameObject boss = Instantiate(Resources.Load<GameObject>("Prefabs/Boss"));
-        boss.GetComponent<Boss>().Speed = 0.1f;
-        boss.GetComponent<Boss>().Delay = delayMilis - 20;
-        boss.GetComponent<Boss>().MaxClick = nEnemies;
-        boss.GetComponent<Boss>().InitPosition = new Vector2(0, 7);
-        boss.GetComponent<Boss>().AddTargetPosition(Vector2.zero);
-
+        if (hasBoss)
+        {
+            GameObject boss = Instantiate(Resources.Load<GameObject>("Prefabs/Boss"));
+            boss.GetComponent<Boss>().Speed = 0.1f;
+            boss.GetComponent<Boss>().Delay = delayMilis - 20;
+            boss.GetComponent<Boss>().MaxClick = nEnemies;
+            boss.GetComponent<Boss>().InitPosition = new Vector2(0, 7);
+            boss.GetComponent<Boss>().AddTargetPosition(Vector2.zero);
+        }
         int index = 0;
         for (int ii = 0; ii < nEnemies; ii++)
         {
@@ -126,8 +151,10 @@ public class GameRuler : MonoBehaviour
             enemy.GetComponent<Minion>().AddTargetPosition(TargetPositions[targetPos]);
             // Adds a delay for the next Enemy
             delayMilis += 20;
-            index += 2;
+
+            index += hasBoss ? 2 : 1;
         }
+        stages++;
     }
 
     /// <summary>
@@ -137,6 +164,11 @@ public class GameRuler : MonoBehaviour
     public void NotifyClick(Enemy enemy)
     {
         clickOrder.Add(enemy);
+    }
+
+    public void NotifyStageEnd()
+    {
+        isStageEnd = true;
     }
 
     private void OnGameStatusChanged(int newStatus)
