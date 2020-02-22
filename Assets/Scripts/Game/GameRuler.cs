@@ -32,10 +32,11 @@ public class GameRuler : MonoBehaviour
     public static int DIRECTION_TOP = 2;
 
     public static int MESSAGE_DEFAULT = 0;
-    private bool isMessageDefaultShown;
+    private bool isMessageDefaultShown; // If the default help message has been shown
     public static int MESSAGE_BOSS = 1;
-    private bool isMessageBossShown;
+    private bool isMessageBossShown;    // If the boss help message has been shown
 
+    //TODO: implement slow motion
     public static float SPEED = 1f;
 
     // Posible init positions of the Enemies
@@ -57,8 +58,11 @@ public class GameRuler : MonoBehaviour
     // Stores the click order of the Enemies
     private List<Enemy> clickOrder = new List<Enemy>();
 
+    // If the stage has a boss
     private bool hasBoss;
+    // If the stage has end
     private bool isStageEnd;
+    // Count of stages
     private int stages = 0;
 
     // Start is called before the first frame update
@@ -88,6 +92,7 @@ public class GameRuler : MonoBehaviour
 
         prevGameStatus = GAMESTATUS;
 
+        // If the stage has end
         if (isStageEnd)
         {
             if (stages % 3 == 0)
@@ -95,11 +100,13 @@ public class GameRuler : MonoBehaviour
             else
                 hasBoss = false;
             GAMESTATUS = GAME_STATUS_LOADING;
-            GenerateStage(200);
+            // Generates the next stage
+            GenerateStage(150);
             isStageEnd = false;
         }
         else
         {
+            // If the message dialog of the boss has not been shown
             if (hasBoss && !isMessageBossShown)
             {
                 ShowHelpDialog(MESSAGE_BOSS);
