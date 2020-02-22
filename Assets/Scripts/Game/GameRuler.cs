@@ -10,6 +10,8 @@ public class GameRuler : MonoBehaviour
     private GameObject Canvas;
     [SerializeField]
     private GameObject Menus;
+    [SerializeField]
+    private GameObject GameOver;
 
     private GameObject Player;
 
@@ -176,6 +178,7 @@ public class GameRuler : MonoBehaviour
         if (GAMESTATUS == GAME_STATUS_OVER)
         {
             GetComponents<AudioSource>()[1].Play();
+            GameOver.SetActive(true);
         }
     }
 
@@ -202,9 +205,12 @@ public class GameRuler : MonoBehaviour
     /// </summary>
     public void OnPauseClicked()
     {
-        Canvas.GetComponent<AudioSource>().Play();
-        Menus.SetActive(true);
-        GAMESTATUS = GAME_STATUS_STOP;
+        if (GAMESTATUS != GAME_STATUS_OVER)
+        {
+            Canvas.GetComponent<AudioSource>().Play();
+            Menus.SetActive(true);
+            GAMESTATUS = GAME_STATUS_STOP;
+        }
     }
 
     /// <summary>
