@@ -100,6 +100,11 @@ public class GameRuler : MonoBehaviour
         }
         else
         {
+            if (hasBoss && !isMessageBossShown)
+            {
+                ShowHelpDialog(MESSAGE_BOSS);
+                isMessageBossShown = true;
+            }
             // If all the Enemies have been clicked
             int count = nEnemies;
             if (hasBoss)
@@ -164,6 +169,7 @@ public class GameRuler : MonoBehaviour
             index += hasBoss ? 2 : 1;
         }
         stages++;
+        GameObject.Find("Stage").GetComponent<Text>().text = "Stage " + stages;
     }
 
     /// <summary>
@@ -198,14 +204,13 @@ public class GameRuler : MonoBehaviour
                 ShowHelpDialog(MESSAGE_DEFAULT);
                 isMessageDefaultShown = true;
             }
-            else if (!isMessageBossShown && hasBoss)
-            {
-                ShowHelpDialog(MESSAGE_BOSS);
-                isMessageBossShown = true;
-            }
         }
     }
 
+    /// <summary>
+    /// Shows the help dialog
+    /// </summary>
+    /// <param name="msgType">If the message is the default or the boss one</param>
     private void ShowHelpDialog(int msgType)
     {
         GAMESTATUS = GAME_STATUS_LOADING;
@@ -214,10 +219,13 @@ public class GameRuler : MonoBehaviour
         if (msgType == MESSAGE_DEFAULT)
             text = "Seems that the best way to overcome these guys is to kill them in order";
         if (msgType == MESSAGE_BOSS)
-            text = "Hmmm, that boss seems pretty strong. He may tank more than one attack. I should attack him little by little";
+            text = "Hmmm, it seems like the big boss is coming. It may take a few more hits than usual";
         GameObject.Find("HelpMessage").GetComponent<Text>().text = text;
     }
 
+    /// <summary>
+    /// Hides the help dialog
+    /// </summary>
     public void HideHelpDialog()
     {
         GAMESTATUS = GAME_STATUS_LIVE;
