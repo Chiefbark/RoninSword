@@ -19,11 +19,14 @@ public abstract class Enemy : BasicScriptBehaviour
     public int Delay { get; set; }
     private int delay;  // Delay counter
 
+    private bool placed;
+
     protected override void OnStart()
     {
         delay = 0;
         transform.position = InitPosition;
         CurrTargetPosition = InitPosition;
+        placed = false;
     }
 
     protected override void StatusLiveBehaviour()
@@ -40,13 +43,21 @@ public abstract class Enemy : BasicScriptBehaviour
             // if there are more target positions inside the queue
             else if (!GetComponent<Animator>().GetBool("attack") && TargetList.Count > 0)
             {
+                placed = false;
                 // Dequeues the nest position from the list and prepares the Enemy to move towards it
                 CurrTargetPosition = TargetList.Dequeue();
                 MoveTo(CurrTargetPosition);
             }
             // If there are no more target positions inside the queue
             else if (!GetComponent<Animator>().GetBool("attack"))
+            {
                 MoveTo(transform.position, GameRuler.DIRECTION_BOTTOM);
+                if (!placed)
+                {
+                    placed = true;
+                    GameObject.Find("GameRuler").GetComponent<GameRuler>().NotifyEnemyPlaced();
+                }
+            }
         }
     }
 

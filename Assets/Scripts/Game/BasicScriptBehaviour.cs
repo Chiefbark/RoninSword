@@ -29,7 +29,7 @@ public abstract class BasicScriptBehaviour : MonoBehaviour
 
         prevGameStatus = GameRuler.GAMESTATUS;
 
-        if (GameRuler.GAMESTATUS == GameRuler.GAME_STATUS_LIVE)
+        if (GameRuler.GAMESTATUS == GameRuler.GAME_STATUS_LIVE || GameRuler.GAMESTATUS == GameRuler.GAME_STATUS_LOADING)
             StatusLiveBehaviour();
         if (GameRuler.GAMESTATUS == GameRuler.GAME_STATUS_STOP)
             StatusStopBehaviour();

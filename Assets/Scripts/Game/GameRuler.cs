@@ -15,12 +15,13 @@ public class GameRuler : MonoBehaviour
 
     private GameObject Player;
 
-    public static int GAMESTATUS = 1;
+    public static int GAMESTATUS = 2;
     private int prevGameStatus;
 
     public static int GAME_STATUS_STOP = -1;
     public static int GAME_STATUS_OVER = 0;
     public static int GAME_STATUS_LIVE = 1;
+    public static int GAME_STATUS_LOADING = 2;
 
     public static int DIRECTION_RIGHT = -2;
     public static int DIRECTION_LEFT = -1;
@@ -44,6 +45,8 @@ public class GameRuler : MonoBehaviour
     };
     // Total number of Enemies of the stage
     private int nEnemies;
+    // Total number of Enemies that has been placed
+    private int enemiesPlaced;
     // Stores the click order of the Enemies
     private List<Enemy> clickOrder = new List<Enemy>();
 
@@ -84,7 +87,7 @@ public class GameRuler : MonoBehaviour
                 hasBoss = true;
             else
                 hasBoss = false;
-
+            GAMESTATUS = GAME_STATUS_LOADING;
             GenerateStage(200);
             isStageEnd = false;
         }
@@ -105,15 +108,12 @@ public class GameRuler : MonoBehaviour
         }
     }
 
-
     /// <summary>
     /// Generates a pseudorandom stage
     /// </summary>
     /// <param name="delayMilis">The initial delay of the stage</param>
     private void GenerateStage(int delayMilis)
     {
-        // TODO: improve radnom stage generator
-        // TODO: remove hardcoded values for boss
         // Generates a random number of Enemies
         nEnemies = Random.Range(3, 4);
         // List of possible values
@@ -168,9 +168,23 @@ public class GameRuler : MonoBehaviour
         clickOrder.Add(enemy);
     }
 
+    /// <summary>
+    /// Notifies the GameRuler that the stage has end
+    /// </summary>
     public void NotifyStageEnd()
     {
         isStageEnd = true;
+        enemiesPlaced = 0;
+    }
+
+    /// <summary>
+    /// Notifies the GameRuler that the Enemy has been placed
+    /// </summary>
+    public void NotifyEnemyPlaced()
+    {
+        enemiesPlaced++;
+        if (enemiesPlaced == nEnemies)
+            GAMESTATUS = GAME_STATUS_LIVE;
     }
 
     private void OnGameStatusChanged(int newStatus)
