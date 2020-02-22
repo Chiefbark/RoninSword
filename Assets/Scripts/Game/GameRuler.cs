@@ -135,7 +135,7 @@ public class GameRuler : MonoBehaviour
     private void GenerateStage(int delayMilis)
     {
         // Generates a random number of Enemies
-        nEnemies = Random.Range(3, 6);
+        nEnemies = Random.Range(3, stages == 0 ? 4 : 6);
         // List of possible values
         List<int> positions = new List<int>(new int[] { 0, 1, 2, 3, 4, 5 });
         // List of possible target values
