@@ -12,6 +12,8 @@ public class GameRuler : MonoBehaviour
     private GameObject Menus;
     [SerializeField]
     private GameObject GameOver;
+    [SerializeField]
+    private GameObject Help;
 
     private GameObject Player;
 
@@ -61,6 +63,7 @@ public class GameRuler : MonoBehaviour
         prevGameStatus = GAMESTATUS;
 
         GenerateStage(50);
+        
         isStageEnd = false;
 
         if (AppManager.VOLUME == AppManager.VOLUME_MIN)
