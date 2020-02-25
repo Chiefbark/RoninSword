@@ -138,7 +138,7 @@ public class GameRuler : MonoBehaviour
             hasBoss = false;
 
         // Generates a random number of Enemies
-        nEnemies = Random.Range(3, stages == 0 ? 4 : hasBoss ? 4 : 6);
+        nEnemies = Random.Range(3, stages == 0 ? 4 : hasBoss ? 5 : 6);
 
         // List of possible values
         List<int> positions = new List<int>(new int[] { 0, 1, 2, 3, 4, 5 });
@@ -277,7 +277,7 @@ public class GameRuler : MonoBehaviour
         Help.SetActive(true);
         string text = "";
         if (msgType == MESSAGE_DEFAULT)
-            text = "The best way to overcome these guys is to kill them in order";
+            text = "This should be easy, they even came in order!";
         if (msgType == MESSAGE_BOSS)
             text = "Hmmm, it seems like the big boss is coming. It may take a few more hits than usual...\n(enemy, boss, enemy, boss, ...)";
         GameObject.Find("HelpMessage").GetComponent<Text>().text = text;
