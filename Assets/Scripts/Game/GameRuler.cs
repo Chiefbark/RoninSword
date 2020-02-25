@@ -132,15 +132,21 @@ public class GameRuler : MonoBehaviour
     /// <param name="delayMilis">The initial delay of the stage</param>
     private void GenerateStage(int delayMilis)
     {
+        if (stages > 0 && stages % 3 == 0)
+            hasBoss = true;
+        else
+            hasBoss = false;
+
         // Generates a random number of Enemies
         nEnemies = Random.Range(3, stages == 0 ? 4 : hasBoss ? 4 : 6);
+
         // List of possible values
         List<int> positions = new List<int>(new int[] { 0, 1, 2, 3, 4, 5 });
         // List of possible target values
         List<int> targetPositions = new List<int>(new int[] { 0, 1, 2, 3, 4, 5 });
 
         // Creates a Boss
-        if (stages > 0 && stages % 3 == 0)
+        if (hasBoss)
         {
             // Loads the Boss prefab
             GameObject boss = Instantiate(Resources.Load<GameObject>("Prefabs/Boss"));
@@ -155,8 +161,6 @@ public class GameRuler : MonoBehaviour
             boss.GetComponent<Boss>().AddTargetPosition(Vector2.zero);
             hasBoss = true;
         }
-        else
-            hasBoss = false;
 
         // Creates a Minion doing a feint
         if (stages > 4 && Random.Range(1, 4) == 1)
