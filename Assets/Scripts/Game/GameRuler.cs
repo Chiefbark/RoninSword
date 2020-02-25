@@ -60,6 +60,8 @@ public class GameRuler : MonoBehaviour
 
     // If the stage has a boss
     private bool hasBoss;
+    // If the stage has a feint
+    private bool hasFeint;
     // If the stage has end
     private bool isStageEnd;
     // Count of stages
@@ -95,10 +97,6 @@ public class GameRuler : MonoBehaviour
         // If the stage has end
         if (isStageEnd)
         {
-            if (stages % 3 == 0)
-                hasBoss = true;
-            else
-                hasBoss = false;
             GAMESTATUS = GAME_STATUS_LOADING;
             // Generates the next stage
             GenerateStage(150);
@@ -135,40 +133,77 @@ public class GameRuler : MonoBehaviour
     private void GenerateStage(int delayMilis)
     {
         // Generates a random number of Enemies
-        nEnemies = Random.Range(3, stages == 0 ? 4 : 6);
+        nEnemies = Random.Range(3, stages == 0 ? 4 : hasBoss ? 4 : 6);
         // List of possible values
         List<int> positions = new List<int>(new int[] { 0, 1, 2, 3, 4, 5 });
         // List of possible target values
         List<int> targetPositions = new List<int>(new int[] { 0, 1, 2, 3, 4, 5 });
 
-        if (hasBoss)
+        // Creates a Boss
+        if (stages > 0 && stages % 3 == 0)
         {
+            // Loads the Boss prefab
             GameObject boss = Instantiate(Resources.Load<GameObject>("Prefabs/Boss"));
+            // Sets the speed of the Boss
             boss.GetComponent<Boss>().Speed = 0.1f;
+            // Sets the enter delay of the Boss
             boss.GetComponent<Boss>().Delay = delayMilis - 20;
             boss.GetComponent<Boss>().MaxClick = nEnemies;
+            // Sets the initial position from the initposition array
             boss.GetComponent<Boss>().InitPosition = new Vector2(0, 7);
+            // Sets the target position from the targetposition array
             boss.GetComponent<Boss>().AddTargetPosition(Vector2.zero);
+            hasBoss = true;
         }
+        else
+            hasBoss = false;
+
+        // Creates a Minion doing a feint
+        if (stages > 4 && Random.Range(1, 4) == 1)
+        {
+            GameObject enemy = Instantiate(Resources.Load<GameObject>("Prefabs/Minion"));
+            // Sets the speed of the Minion
+            enemy.GetComponent<Minion>().Speed = 0.25f;
+            // Sets the enter delay of the Minion
+            enemy.GetComponent<Minion>().Delay = delayMilis;
+            // Randomizes a position and removes it from the list so it cannot be repeated
+            int pos = positions[Random.Range(0, positions.Count)];
+            positions.Remove(pos);
+            // Sets the initial position from the initposition array
+            enemy.GetComponent<Minion>().InitPosition = InitPositions[pos];
+            // Randomizes a target position and removes it from the list so it cannot be repeated
+            int targetPos1 = targetPositions[Random.Range(0, targetPositions.Count)];
+            targetPositions.Remove(targetPos1);
+            // Sets the target position from the targetposition array
+            enemy.GetComponent<Minion>().AddTargetPosition(TargetPositions[targetPos1]);
+            // Randomizes a target position
+            Vector2 targetPos2 = InitPositions[Random.Range(0, InitPositions.Length)];
+            // Sets the second target position from the targetposition array
+            enemy.GetComponent<Minion>().AddTargetPosition(targetPos2);
+            hasFeint = true;
+        }
+        else
+            hasFeint = false;
+
         int index = 0;
         for (int ii = 0; ii < nEnemies; ii++)
         {
-            // Loads the Enemy prefab
+            // Loads the Minion prefab
             GameObject enemy = Instantiate(Resources.Load<GameObject>("Prefabs/Minion"));
-            // Sets the speed of the Enemy
+            // Sets the speed of the Minion
             enemy.GetComponent<Minion>().Speed = 0.5f;
-            // Sets the enter delay of the Enemy
+            // Sets the enter delay of the Minion
             enemy.GetComponent<Minion>().Delay = delayMilis;
-            // Sets the order click of the Enemy
+            // Sets the order click of the Minion
             enemy.GetComponent<Minion>().Index = index;
             // Randomizes a position and removes it from the list so it cannot be repeated
             int pos = positions[Random.Range(0, positions.Count)];
             positions.Remove(pos);
+            // Sets the initial position from the initposition array
+            enemy.GetComponent<Minion>().InitPosition = InitPositions[pos];
             // Randomizes a target position and removes it from the list so it cannot be repeated
             int targetPos = targetPositions[Random.Range(0, targetPositions.Count)];
             targetPositions.Remove(targetPos);
-            // Sets the initial position from the initposition array
-            enemy.GetComponent<Minion>().InitPosition = InitPositions[pos];
             // Sets the target position from the targetposition array
             enemy.GetComponent<Minion>().AddTargetPosition(TargetPositions[targetPos]);
             // Adds a delay for the next Enemy
@@ -204,7 +239,7 @@ public class GameRuler : MonoBehaviour
     public void NotifyEnemyPlaced()
     {
         enemiesPlaced++;
-        if (enemiesPlaced == nEnemies)
+        if (enemiesPlaced == nEnemies + (hasFeint ? 1 : 0))
         {
             GAMESTATUS = GAME_STATUS_LIVE;
             if (!isMessageDefaultShown && !hasBoss)
